@@ -9,13 +9,9 @@ const HomePage = () => {
       {/* Navbar */}
       <Header />   
 
-      {/* Page Content */}
-      <main className="container mx-auto px-6 py-12 text-center">
-        
-           <Section1/>
-           <Section2/>
-
-      </main>
+      
+      <Section1/>
+      <Section2/>
    
     </div>
   );
