@@ -2,34 +2,27 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="bg-soft shadow-md">
-      <nav className="container mx-auto flex items-center justify-between px-6 py-4">
-        {/* Website Name */}
-        <div className="text-2xl font-bold text-forest tracking-wide">
+    <header className="bg-soft shadow-2xl sticky top-0 z-50 transition-all duration-500 hover:shadow-[0_0_25px_rgba(42,98,80,0.6)]">
+      <nav className="container mx-auto flex items-center justify-between px-10 py-4">
+        {/* Logo with scale effect */}
+        <div className="text-2xl md:text-3xl font-bold text-forest tracking-wide drop-shadow-md transform transition-transform duration-300 hover:scale-110">
           Green Vision
         </div>
 
-        {/* Links */}
-        <ul className="flex space-x-8 text-navy font-medium">
-          <li>
-            <span className="hover:text-forest cursor-pointer transition-colors duration-200">
-              Scan Object
-            </span>
-          </li>
-          <li>
-            <span className="hover:text-forest cursor-pointer transition-colors duration-200">
-              Know More
-            </span>
-          </li>
-          <li>
-            <span className="hover:text-forest cursor-pointer transition-colors duration-200">
-              About Us
-            </span>
-          </li>
+        {/* Links with crazy underline hover effect */}
+        <ul className="flex space-x-16 text-navy font-medium">
+          {["Scan Object", "Know More", "About Us", "Map"].map((item, index) => (
+            <li key={index} className="relative">
+              <span className="cursor-pointer transition-colors duration-300 hover:text-forest">
+                {item}
+              </span>
+              <span className="absolute left-0 -bottom-1 w-0 h-1 bg-forest transition-all duration-300 hover:w-full rounded"></span>
+            </li>
+          ))}
         </ul>
 
-        {/* Example Button */}
-        <button className="ml-6 px-4 py-2 rounded-lg bg-mint text-navy font-semibold hover:bg-forest hover:text-white transition-colors duration-200">
+        {/* Button with neon glow */}
+        <button className="ml-10 px-6 py-2 rounded-lg bg-mint text-navy font-semibold shadow-md transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-forest hover:text-soft hover:shadow-[0_0_15px_rgba(151,206,173,0.8)]">
           Get Started
         </button>
       </nav>
