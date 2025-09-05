@@ -1,12 +1,12 @@
-// Section3.jsx
+// Section4.jsx
 import React, { useEffect, useRef, useState } from "react";
-import "./Section3.css";
+import "./Section4.css";
 
 const handleAnimationComplete = () => {
   console.log("✅ All letters have animated!");
 };
 
-const Section3 = () => {
+const Section4 = () => {
   const sectionRef = useRef(null);
   const [revealed, setRevealed] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -30,7 +30,7 @@ const Section3 = () => {
   return (
     <div
       ref={sectionRef}
-      className={`section3 ${revealed ? "revealed" : ""}`}
+      className={`section4 ${revealed ? "revealed" : ""}`}
     >
       {mounted ? (
         <video
@@ -39,16 +39,16 @@ const Section3 = () => {
           muted
           playsInline
           className="hero-bg"
-          src="https://res.cloudinary.com/dgt1r41n8/video/upload/v1757104807/Section3_yivbp5.mp4"
+          src="https://res.cloudinary.com/dgt1r41n8/video/upload/v1757104064/Section4_c1qrrm.mp4"
         />
       ) : (
         <div className="hero-bg placeholder" />
       )}
     
-        <div className="my-text">Section3</div>
+        <div className="my-text">Section4</div>
       
     </div>
   );
 };
 
-export default Section3;
+export default Section4;
