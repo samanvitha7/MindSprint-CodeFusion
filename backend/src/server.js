@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import rulesRoutes from "./routes/rulesRoutes.js";
+import facilityRoutes from "./routes/facilityRoutes.js";
 
 
 dotenv.config();
@@ -21,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.get("/", (req, res) => res.send("Backend is running"));
 app.use("/api/rules", rulesRoutes);
-
+app.use("/api/facilities", facilityRoutes);
 
 
 const PORT = process.env.PORT || 5000;
