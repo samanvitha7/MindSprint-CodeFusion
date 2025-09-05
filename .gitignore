@@ -1,25 +1,172 @@
-# dependencies
+# Dependencies
 node_modules/
 frontend/node_modules/
 backend/node_modules/
+ml-backend/node_modules/
 
-# environment variables
+# Python virtual environments and cache
+ml-backend/venv/
+ml-backend/env/
+ml-backend/.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*
 
-# production
+# Production builds
 /build
 /dist
+frontend/build/
+frontend/dist/
 
-# logs
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+*.log
 
-# misc
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# next.js build output
+.next
+
+# nuxt.js build output
+.nuxt
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# ML Model files (optional - comment out if you want to track models)
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.model
+*.pt
+*.pth
+ml-backend/model/*.h5
+ml-backend/model/*.hdf5
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# IPython
+profile_default/
+ipython_config.py
+
+# TensorFlow logs
+logs/
+tensorboard_logs/
+
+# System files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 .pnp
 .pnp.js
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# OS generated files
+Icon?
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# MacOS
+.AppleDouble
+.LSOverride
