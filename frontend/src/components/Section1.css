@@ -1,0 +1,145 @@
+.section1 {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #e0f7fa;
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+@font-face {
+  font-family: "WinkyRough";
+  src: url("/fonts/WinkyRough.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.winky-font {
+  font-family: "WinkyRough", serif;
+}
+
+.section1.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.hero-bg.placeholder {
+  background: #000;
+  opacity: 0.5;
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text-title {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin: 0;
+  padding: 0 1rem;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 480px) {
+  .section1 {
+    padding: 1rem;
+  }
+
+  .text {
+    padding: 0 0.75rem;
+    width: calc(100% - 1.5rem);
+  }
+
+  .text-title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .section1 {
+    padding: 1.5rem;
+  }
+
+  .text {
+    padding: 0 1rem;
+    width: calc(100% - 2rem);
+  }
+
+  .text-title {
+    font-size: clamp(2rem, 7vw, 3rem);
+    line-height: 1.15;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .text-title {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .section1 {
+    min-height: 100vh;
+    padding: 0.5rem;
+  }
+
+  .text-title {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    line-height: 1.1;
+  }
+}
+
+/* High DPI display support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .text-title {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@font-face {
+  font-family: "Frunchy Sage";
+  src: url("/fonts/FrunchySage.ttf") format("truetype");
+}
+
+.my-text {
+  font-family: "Frunchy Sage", serif;
+  font-size: 6rem;
+  font-weight: 900;
+  opacity: 0.8;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
