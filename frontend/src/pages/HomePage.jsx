@@ -1,5 +1,7 @@
 import React from "react";
 import Header from "../components/Header.jsx"; 
+import Section1 from "../components/Section1.jsx"
+import Section2 from "../components/Section2.jsx"
 
 const HomePage = () => {
   return (
@@ -19,7 +21,12 @@ const HomePage = () => {
         <button className="mt-8 px-6 py-3 rounded-lg bg-mint text-navy font-semibold hover:bg-forest hover:text-white transition-colors duration-200">
           Explore Now
         </button>
+
+        
+
       </main>
+      <Section1/>
+      <Section2/>
     </div>
   );
 };
