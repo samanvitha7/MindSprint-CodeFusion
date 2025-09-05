@@ -11,6 +11,9 @@ module.exports = {
         mint: "#97cead",      // (3) Mint Green - button bg
         soft: "#e5f3dd",      // (4) Soft Green - background
       },
+ fontFamily: {
+      poppins: ["Poppins", "sans-serif"],
+    },
 },
   },
   plugins: [],
