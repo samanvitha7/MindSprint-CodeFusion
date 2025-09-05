@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Facility from "./models/facilityModel.js";
+import Facility from "../models/facilityModel.js";
 
 dotenv.config();
 
