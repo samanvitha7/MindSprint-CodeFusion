@@ -41,6 +41,9 @@ const Header = () => {
             <Link to="/map">Map</Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
+            <Link to="/ecohacks">EcoHacks</Link>
+          </li>
+          <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/about">About Us</Link>
           </li>
         </ul>
