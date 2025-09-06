@@ -1,86 +1,104 @@
-import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+// src/components/WasteModal.jsx
+import React, { useEffect } from 'react';
 
-const WasteModal = ({ item, onClose, slideFrom = "right" }) => {
-  const closeRef = useRef(null);
-
+const WasteModal = ({ item, onClose, slideFrom = 'right' }) => {
   useEffect(() => {
-    const handler = (e) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [onClose]);
-
-  useEffect(() => {
-    closeRef.current?.focus();
+    // Prevent body scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, []);
 
-  // animation initial state based on slideFrom
-  const initial =
-    slideFrom === "right"
-      ? { x: "100%", opacity: 0 }
-      : slideFrom === "left"
-      ? { x: "-100%", opacity: 0 }
-      : { scale: 0.9, opacity: 0 };
+  const getSlideClass = () => {
+    switch(slideFrom) {
+      case 'right': return 'translate-x-0';
+      case 'left': return '-translate-x-0';
+      case 'top': return 'translate-y-0';
+      case 'bottom': return '-translate-y-0';
+      default: return 'translate-x-0';
+    }
+  };
 
   return (
-    <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${item.category} details`}
-    >
-      <motion.div
-        initial={initial}
-        animate={{ x: 0, scale: 1, opacity: 1 }}
-        transition={{ duration: 0.35 }}
-        className="relative bg-white w-[80vw] h-[80vh] max-w-6xl rounded-2xl shadow-2xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close button */}
-        <button
-          ref={closeRef}
-          onClick={onClose}
-          className="absolute top-3 right-3 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white text-gray-700 hover:text-red-500 shadow focus:outline-none focus:ring-2 focus:ring-green-500"
-          aria-label="Close"
-        >
-          ✖
-        </button>
-
-        {/* Grid: left image/title, right details */}
-        <div className="h-full grid grid-cols-1 md:grid-cols-2">
-          {/* LEFT panel: image + title */}
-          <div className="relative bg-gradient-to-br from-green-50 to-emerald-100 flex flex-col items-center justify-center p-8">
-            <img
-              src={item.image}
-              alt={item.category}
-              className="w-44 h-44 object-contain drop-shadow-md"
-            />
-            <h2 className="mt-6 text-3xl font-extrabold text-green-700">
-              {item.category}
-            </h2>
+    <>
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300"
+        onClick={onClose}
+      ></div>
+      
+      {/* Modal */}
+      <div className={`fixed top-0 ${slideFrom === 'right' ? 'right-0' : 'left-0'} h-full w-full max-w-md bg-white shadow-xl z-50 transform transition-transform duration-300 ${getSlideClass()}`}>
+        <div className="h-full overflow-y-auto">
+          {/* Header */}
+          <div className="sticky top-0 bg-forest text-white p-4 flex justify-between items-center">
+            <h2 className="text-xl font-bold">{item.category}</h2>
+            <button 
+              onClick={onClose}
+              className="text-white hover:text-mint transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-
-          {/* RIGHT panel: info */}
-          <div className="h-full overflow-y-auto p-6 md:p-8 space-y-6">
-            <section className="bg-green-50 rounded-xl p-5 shadow-sm">
-              <h3 className="text-lg font-bold text-green-800">♻ Recycling Ways</h3>
-              <p className="mt-2 text-gray-800">{item.instruction}</p>
-            </section>
-
-            <section className="bg-red-50 rounded-xl p-5 shadow-sm">
-              <h3 className="text-lg font-bold text-red-700">⚠ Hazards</h3>
-              <p className="mt-2 text-gray-800">{item.hazard}</p>
-            </section>
-
-            <section className="bg-emerald-50 rounded-xl p-5 shadow-sm">
-              <h3 className="text-lg font-bold text-emerald-700">💡 Eco-Fact</h3>
-              <p className="mt-2 text-gray-800">{item.fact}</p>
-            </section>
+          
+          {/* Content */}
+          <div className="p-6">
+            <div className="flex justify-center mb-6">
+              <img 
+                src={item.image} 
+                alt={item.category}
+                className="w-48 h-48 object-contain rounded-lg"
+              />
+            </div>
+            
+            <div className="space-y-6">
+              {/* Recycling Instructions */}
+              <div>
+                <h3 className="text-lg font-semibold text-forest mb-2">How to Recycle</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  {item.instructions.map((instruction, index) => (
+                    <li key={index} className="text-gray-700">{instruction}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              {/* Hazards */}
+              {item.hazards && item.hazards.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-forest mb-2">Potential Hazards</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    {item.hazards.map((hazard, index) => (
+                      <li key={index} className="text-gray-700">{hazard}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {/* Eco Fact */}
+              <div className="bg-mint/20 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold text-forest mb-2">Did You Know?</h3>
+                <p className="text-gray-700 italic">{item.fact}</p>
+              </div>
+              
+              {/* Alternatives */}
+              {item.alternatives && item.alternatives.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-forest mb-2">Eco-Friendly Alternatives</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    {item.alternatives.map((alternative, index) => (
+                      <li key={index} className="text-gray-700">{alternative}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </>
   );
 };
 
