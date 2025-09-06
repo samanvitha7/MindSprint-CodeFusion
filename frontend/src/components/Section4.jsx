@@ -39,13 +39,13 @@ const Section4 = () => {
           muted
           playsInline
           className="hero-bg"
-          src="https://res.cloudinary.com/dgt1r41n8/video/upload/v1757104064/Section4_c1qrrm.mp4"
+          src="https://res.cloudinary.com/dgt1r41n8/video/upload/v1757188585/Section5_ycpfxy.mp4"
         />
       ) : (
         <div className="hero-bg placeholder" />
       )}
        <div className="text">
-        <h1 className="text-title winky-font">The Solution</h1>
+        <h1 className="text-title !text-[#e5f3dd]">The Process</h1>
       </div>
     </div>
   );
