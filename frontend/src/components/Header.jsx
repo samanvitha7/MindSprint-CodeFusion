@@ -32,7 +32,7 @@ const Header = () => {
         {/* Navigation */}
         <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-navy font-semibold tracking-wide">
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
-            <Link to="/">Know More</Link>
+            <Link to="/knowmore">Know More</Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/map">Map</Link>
