@@ -5,28 +5,25 @@ const timeline = [
     title: "The Problem",
     text: "Indian art forms are fading away due to lack of exposure and modern engagement.",
     side: "left",
-    icon: "🚨",
     gradient: "from-forest/80 to-mint/80",
   },
   {
     title: "Our Mission",
     text: "To preserve and promote these forms through a beautiful, interactive web platform.",
     side: "right",
-    icon: "🎯",
     gradient: "from-forest/80 to-mint/80",
   },
   {
     title: "The Impact",
     text: "We aim to help artists and enthusiasts connect, learn, and celebrate these crafts.",
     side: "left",
-    icon: "💥",
     gradient: "from-forest/80 to-mint/80",
   }
 ];
 
 function WhyWeBuiltThis() {
   return (
-    <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-r from-forest/80 to-mint/80">
+    <div className=" p-8 md:p-12 bg-gradient-to-r from-forest/80 to-mint/80">
       {/* Background particles */}
       <div className="absolute inset-0 overflow-hidden rounded-3xl">
         {Array.from({ length: 8 }).map((_, i) => (
