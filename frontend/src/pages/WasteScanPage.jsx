@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import { modelService, uploadUtils, handleApiError } from '../services/api.js';
@@ -59,6 +60,7 @@ const WasteScanPage = () => {
       
       setCameraStream(stream);
       setShowCamera(true);
+      toast.success('📹 Camera started successfully!');
       
       // Wait for video element to be ready
       setTimeout(() => {
@@ -83,6 +85,7 @@ const WasteScanPage = () => {
       
       setCameraError(errorMessage);
       setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -136,6 +139,7 @@ const WasteScanPage = () => {
 
           // Stop camera after capture
           stopCamera();
+          toast.success('📸 Photo captured successfully!');
           
           console.log('📸 Photo captured successfully:', file.name);
         }
@@ -182,6 +186,7 @@ const WasteScanPage = () => {
       
       if (response.success) {
         setResult(response.data);
+        toast.success(`🎯 Classified as ${response.data.category} with ${Math.round(response.data.confidence * 100)}% confidence!`);
       } else {
         throw new Error(response.message || 'Prediction failed');
       }
