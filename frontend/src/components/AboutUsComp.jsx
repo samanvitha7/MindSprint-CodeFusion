@@ -50,7 +50,7 @@ function WhyWeBuiltThis() {
       </div>
 
       <motion.h2 
-        className="text-4xl font-bold text-center mb-16 text-white font-[Yatra One] relative z-10"
+        className="text-4xl font-bold text-center mb-16 text-soft font-poppins relative z-10"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -65,7 +65,7 @@ function WhyWeBuiltThis() {
           {timeline.map((item, idx) => (
             <motion.div
               key={idx}
-              className="flex-shrink-0 w-80 bg-[#F8E6DA] backdrop-blur-sm border border-white/20 rounded-3xl shadow-xl p-6 relative"
+              className="flex-shrink-0 w-80 bg-soft backdrop-blur-sm border border-white/20 rounded-3xl shadow-xl p-6 relative"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
@@ -77,7 +77,7 @@ function WhyWeBuiltThis() {
                 {item.icon}
               </motion.div>
 
-              <h3 className={`text-2xl font-bold mb-3 bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent`}>
+              <h3 className={`text-2xl font-bold font-poppins mb-3 bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent`}>
                 {item.title}
               </h3>
 
@@ -92,13 +92,13 @@ function WhyWeBuiltThis() {
       {/* Desktop: Vertical Timeline */}
       <div className="hidden md:block relative max-w-5xl mx-auto z-10">
         <motion.div 
-          className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-white via-white/80 to-white/60 rounded-full"
-          initial={{ scaleY: 0 }}
-          whileInView={{ scaleY: 1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-          viewport={{ once: true }}
-          style={{ transformOrigin: "top" }}
-        />
+  className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-soft via-soft/80 to-soft/60 rounded-full"
+  initial={{ scaleY: 0 }}
+  whileInView={{ scaleY: 1 }}
+  transition={{ duration: 1.5, delay: 0.5 }}
+  viewport={{ once: true }}
+  style={{ transformOrigin: "top" }}
+/>
 
         {timeline.map((item, idx) => (
           <motion.div
@@ -109,20 +109,9 @@ function WhyWeBuiltThis() {
             transition={{ duration: 0.8, delay: idx * 0.3 }}
             viewport={{ once: true }}
           >
-            <motion.div
-              className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-blush-peach text-[#134856] rounded-full flex items-center justify-center font-bold shadow-lg z-20 border border-[#134856]"
-
-              initial={{ scale: 0, rotate: -180 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.3 + 0.2 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.2, rotate: 360 }}
-            >
-              {idx + 1}
-            </motion.div>
 
             <motion.div
-              className={`bg-[#F8E6DA] backdrop-blur-sm border border-white/20 max-w-md rounded-3xl shadow-xl p-8 relative z-10 ${item.side === "left" ? "mr-8" : "ml-8"}`}
+              className={`bg-soft backdrop-blur-sm border border-white/20 max-w-md rounded-3xl shadow-xl p-8 relative z-10 ${item.side === "left" ? "mr-2 -ml-4" : "ml-2 -mr-4"}`}
               whileHover={{ 
                 scale: 1.05, 
                 rotateY: item.side === "left" ? 5 : -5,
