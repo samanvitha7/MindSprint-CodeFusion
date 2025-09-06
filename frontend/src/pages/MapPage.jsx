@@ -7,6 +7,7 @@ const MapPage = () => {
     <div className="min-h-screen bg-soft">
       <Header />
       <Map />
+      <Footer />
     </div>
   );
 };
