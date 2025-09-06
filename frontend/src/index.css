@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Completely hide scrollbars on entire website */
 html, body, * {
   -ms-overflow-style: none;  /* IE and Edge */
