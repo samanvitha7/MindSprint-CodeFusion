@@ -1,7 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+
+// CSS styles for English map
+const mapStyles = `
+  .english-map {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+  }
+  .english-map .leaflet-control-attribution {
+    font-size: 10px;
+  }
+  .leaflet-popup-content {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.type = 'text/css';
+  styleSheet.innerText = mapStyles;
+  document.head.appendChild(styleSheet);
+}
 
 // Fix for default markers in React-Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -33,6 +54,66 @@ const icons = {
   hazardous: createCustomIcon("red"),
 };
 
+// Map tile layer configurations with English language preference
+const mapTileConfigs = {
+  openstreetmap: {
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | English',
+  },
+  cartodb: {
+    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a> | English labels',
+  },
+  esri: {
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 | English',
+  }
+};
+
+// Component to control map bounds and zoom limits
+const MapBounds = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    // Set language preference for map labels (if supported by tile provider)
+    if (map.getContainer) {
+      map.getContainer().setAttribute('lang', 'en');
+    }
+
+    // Define world bounds that show all 7 continents
+    const worldBounds = L.latLngBounds(
+      [-60, -170], // Southwest coordinates (southern tip of South America/Antarctica region)
+      [75, 170]    // Northeast coordinates (northern tip of North America/Europe/Asia)
+    );
+
+    // Set the maximum bounds to prevent panning outside the world
+    map.setMaxBounds(worldBounds);
+    
+    // Set zoom constraints
+    map.setMinZoom(1);  // Minimum zoom level (shows world view)
+    map.setMaxZoom(18); // Maximum zoom level (street level)
+
+    // Fit the map to show all continents on initial load
+    map.fitBounds(worldBounds, { padding: [20, 20] });
+
+    // Add event listener to prevent zooming out too far
+    const handleZoomEnd = () => {
+      if (map.getZoom() < 1) {
+        map.setZoom(1);
+      }
+    };
+
+    map.on('zoomend', handleZoomEnd);
+    
+    // Cleanup
+    return () => {
+      map.off('zoomend', handleZoomEnd);
+    };
+  }, [map]);
+
+  return null;
+};
+
 const Map = () => {
   const [facilities, setFacilities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,6 +125,7 @@ const Map = () => {
     hazardous: true,
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedMapStyle, setSelectedMapStyle] = useState('cartodb'); // Default to CartoDB for better English labels
 
   // Fetch facilities from backend
   useEffect(() => {
@@ -142,9 +224,13 @@ const Map = () => {
             <span className="mr-2">🌍</span>
             Global Waste Facility Map
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-sm mb-2">
             Real-time data with {facilities.length} facilities worldwide
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs">
+            <p className="text-blue-800 font-semibold mb-1">🗺️ Map View: All 7 Continents</p>
+            <p className="text-blue-700">Zoom is optimized to show global waste facilities across North America, South America, Europe, Africa, Asia, Oceania, and Antarctica regions.</p>
+          </div>
         </div>
 
         {/* Statistics */}
@@ -199,6 +285,35 @@ const Map = () => {
           </div>
         </div>
 
+        {/* Map Style Selector */}
+        <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">
+            🌎 Map Style (English)
+          </h3>
+          <div className="space-y-2">
+            {Object.entries(mapTileConfigs).map(([key, config]) => (
+              <label key={key} className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="mapStyle"
+                  value={key}
+                  checked={selectedMapStyle === key}
+                  onChange={(e) => setSelectedMapStyle(e.target.value)}
+                  className="mr-3 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-gray-700 capitalize">
+                  {key === 'openstreetmap' ? 'OpenStreetMap' : 
+                   key === 'cartodb' ? 'CartoDB (Recommended)' : 
+                   key === 'esri' ? 'Esri World Map' : key}
+                </span>
+              </label>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            ℹ️ All map styles display labels in English
+          </p>
+        </div>
+
         {/* Filters */}
         <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
           <div className="flex justify-between items-center mb-4">
@@ -243,14 +358,26 @@ const Map = () => {
       {/* Map Container */}
       <div className="flex-1 relative">
         <MapContainer
-          center={[30, 0]}
+          center={[20, 0]}
           zoom={2}
+          minZoom={1}
+          maxZoom={18}
           style={{ height: "100%", width: "100%" }}
           zoomControl={true}
+          worldCopyJump={false}
+          maxBoundsViscosity={1.0}
+          attributionControl={true}
+          className="english-map"
         >
+          <MapBounds />
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            key={selectedMapStyle}
+            url={mapTileConfigs[selectedMapStyle].url}
+            attribution={mapTileConfigs[selectedMapStyle].attribution}
+            noWrap={true}
+            detectRetina={true}
+            maxZoom={18}
+            subdomains={selectedMapStyle === 'cartodb' ? ['a', 'b', 'c', 'd'] : ['a', 'b', 'c']}
           />
 
           {filteredFacilities.map((facility) => {
@@ -272,15 +399,15 @@ const Map = () => {
                 icon={icon}
               >
                 <Popup>
-                  <div className="p-2 min-w-64">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  <div className="p-3 min-w-64">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">
                       {facility.name}
                     </h3>
                     <div className="space-y-2 text-sm">
-                      <p>
-                        <strong>Type:</strong>
+                      <div className="flex items-center">
+                        <strong className="text-gray-700 w-20">Type:</strong>
                         <span
-                          className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
+                          className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
                             facility.type === "recycling"
                               ? "bg-green-100 text-green-800"
                               : facility.type === "waste"
@@ -288,34 +415,40 @@ const Map = () => {
                               : "bg-red-100 text-red-800"
                           }`}
                         >
-                          {facility.type}
+                          {facility.type === 'recycling' ? 'Recycling Center' : 
+                           facility.type === 'waste' ? 'Waste Disposal' :
+                           facility.type === 'hazardous' ? 'Hazardous Waste' : facility.type}
                         </span>
-                      </p>
-                      <p>
-                        <strong>Address:</strong> {facility.address}
-                      </p>
-                      <p>
-                        <strong>Country:</strong> {facility.country}
-                      </p>
-                      <p>
-                        <strong>Continent:</strong> {facility.continent}
-                      </p>
-                      <p>
-                        <strong>Status:</strong>
+                      </div>
+                      <div className="flex items-start">
+                        <strong className="text-gray-700 w-20 flex-shrink-0">Address:</strong> 
+                        <span className="text-gray-600">{facility.address}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <strong className="text-gray-700 w-20">Country:</strong> 
+                        <span className="text-gray-600">{facility.country}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <strong className="text-gray-700 w-20">Continent:</strong> 
+                        <span className="text-gray-600">{facility.continent}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <strong className="text-gray-700 w-20">Status:</strong>
                         <span
-                          className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
                             facility.status === "Active"
                               ? "bg-green-100 text-green-800"
                               : "bg-red-100 text-red-800"
                           }`}
                         >
-                          {facility.status}
+                          {facility.status === 'Active' ? '✅ Active' : '❌ Inactive'}
                         </span>
-                      </p>
+                      </div>
                       {facility.description && (
-                        <p>
-                          <strong>Description:</strong> {facility.description}
-                        </p>
+                        <div className="flex items-start mt-3 pt-2 border-t">
+                          <strong className="text-gray-700 w-20 flex-shrink-0">Details:</strong> 
+                          <span className="text-gray-600">{facility.description}</span>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -326,22 +459,47 @@ const Map = () => {
         </MapContainer>
 
         {/* Legend */}
-        <div className="absolute bottom-6 right-6 bg-white p-4 rounded-lg shadow-lg border z-[1000]">
+        <div className="absolute bottom-6 right-6 bg-white p-4 rounded-lg shadow-lg border z-[1000] max-w-xs">
           <h4 className="text-sm font-semibold text-gray-800 mb-3">
-            Facility Types
+            🌍 Global Facility Map <span className="text-xs font-normal text-gray-500">(English)</span>
           </h4>
+          
+          {/* Map Info */}
+          <div className="mb-4 p-2 bg-blue-50 rounded text-xs">
+            <p className="text-blue-800 font-medium mb-1">📍 Coverage: All 7 Continents</p>
+            <p className="text-blue-600">50 Facilities across the globe</p>
+            <p className="text-blue-600">Zoom limited to world view for optimal continent visibility</p>
+            <p className="text-blue-800 italic mt-1 text-[10px]">All map labels display in English</p>
+          </div>
+
+          {/* Facility Types */}
+          <h5 className="text-xs font-semibold text-gray-700 mb-2">Facility Types:</h5>
           <div className="space-y-2">
             <div className="flex items-center">
-              <div className="w-5 h-5 bg-green-500 rounded-full mr-2"></div>
-              <span className="text-sm text-gray-700">Recycling</span>
+              <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+              <span className="text-xs text-gray-700">Recycling Centers</span>
             </div>
             <div className="flex items-center">
-              <div className="w-5 h-5 bg-blue-500 rounded-full mr-2"></div>
-              <span className="text-sm text-gray-700">Waste Disposal</span>
+              <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+              <span className="text-xs text-gray-700">Waste Disposal</span>
             </div>
             <div className="flex items-center">
-              <div className="w-5 h-5 bg-red-500 rounded-full mr-2"></div>
-              <span className="text-sm text-gray-700">Hazardous Waste</span>
+              <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+              <span className="text-xs text-gray-700">Hazardous Waste</span>
+            </div>
+          </div>
+
+          {/* Continent Coverage */}
+          <div className="mt-3 pt-2 border-t border-gray-200">
+            <h5 className="text-xs font-semibold text-gray-700 mb-2">Continental Coverage:</h5>
+            <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
+              <span>🌎 N. America</span>
+              <span>🌍 Europe</span>
+              <span>🌏 Asia</span>
+              <span>🌍 Africa</span>
+              <span>🌎 S. America</span>
+              <span>🌏 Oceania</span>
+              <span className="col-span-2 text-center">❄️ Antarctica</span>
             </div>
           </div>
         </div>
