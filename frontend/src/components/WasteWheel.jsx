@@ -1,46 +1,70 @@
-import React from "react";
-import {motion} from "framer-motion";
+// src/components/WasteWheel.jsx (Alternative Version)
+import React from 'react';
 
-const WasteWheel = ({ items = [], onSelect = () => {}, sizeRem = 18 }) => {
-  const anglePerItem = 360 / Math.max(1, items.length);
-  const radiusRem = sizeRem * 0.45; // radius in rem relative to diameter
-  const diameterStyle = { width: `${sizeRem}rem`, height: `${sizeRem}rem` };
-
+const WasteWheel = ({ items, onSelect, sizeRem = 22 }) => {
+  const totalItems = items.length;
+  const angleIncrement = 360 / totalItems;
+  
   return (
-    <div
-      className="relative rounded-full border-4 border-green-300 flex items-center justify-center bg-white/60 shadow-md"
-      style={diameterStyle}
-      aria-hidden={false}
-    >
-      {/* center hint */}
-      <p className="text-xs md:text-sm text-green-800/70 select-none text-center px-4 absolute">
-        hover to preview · click to open
-      </p>
-
-      {items.map((item, index) => {
-        const angle = index * anglePerItem;
-        const transform = `rotate(${angle}deg) translate(${radiusRem}rem) rotate(-${angle}deg)`;
-
-        return (
-          <motion.button
-            key={item.id}
-            onClick={() => onSelect(index)}
-            whileHover={{ scale: 1.2 }}
-            whileFocus={{ scale: 1.2 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white/70 backdrop-blur"
-            style={{
-              left: "50%",
-              top: "50%",
-              transform
-            }}
-            aria-label={`Open details for ${item.category}`}
-          >
-            <span className="text-green-900 font-semibold text-sm md:text-base whitespace-nowrap">
+    <div className="relative mx-auto" style={{ width: `${sizeRem}rem`, height: `${sizeRem}rem` }}>
+      {/* Wheel container */}
+      <div 
+        className="relative rounded-full overflow-hidden border-4 border-forest/30 shadow-lg"
+        style={{ width: `${sizeRem}rem`, height: `${sizeRem}rem` }}
+      >
+        {/* Wheel segments */}
+        {items.map((item, index) => {
+          const rotation = index * angleIncrement;
+          return (
+            <div
+              key={index}
+              className="absolute inset-0 origin-center cursor-pointer"
+              style={{
+                clipPath: `conic-gradient(from ${rotation}deg, ${item.color} 0deg, ${item.color} ${angleIncrement}deg, transparent ${angleIncrement}deg)`,
+                transform: `rotate(${rotation}deg)`,
+              }}
+              onClick={() => onSelect(index)}
+            />
+          );
+        })}
+        
+        {/* Labels - positioned around the wheel without rotation */}
+        {items.map((item, index) => {
+          const angle = (index * angleIncrement + angleIncrement / 2 - 90) * Math.PI / 180;
+          const labelRadius = (sizeRem / 2) * 0.75;
+          const labelX = (sizeRem / 2) + labelRadius * Math.cos(angle);
+          const labelY = (sizeRem / 2) + labelRadius * Math.sin(angle);
+          
+          return (
+            <div
+              key={index}
+              className="absolute text-sm font-semibold text-white bg-navy/90 px-3 py-1 rounded-lg whitespace-nowrap cursor-pointer z-10 shadow-md"
+              style={{
+                left: `${labelX}rem`,
+                top: `${labelY}rem`,
+                transform: 'translate(-50%, -50%)',
+              }}
+              onClick={() => onSelect(index)}
+            >
               {item.category}
-            </span>
-          </motion.button>
-        );
-      })}
+            </div>
+          );
+        })}
+        
+        {/* Center circle */}
+        <div 
+          className="absolute rounded-full bg-forest text-white flex items-center justify-center text-center font-bold shadow-md border-4 border-white"
+          style={{
+            width: `${sizeRem * 0.35}rem`,
+            height: `${sizeRem * 0.35}rem`,
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <span className="text-sm">Waste Wheel</span>
+        </div>
+      </div>
     </div>
   );
 };
