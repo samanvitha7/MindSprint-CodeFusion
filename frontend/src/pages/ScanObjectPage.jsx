@@ -17,7 +17,8 @@ export default function ScanObjectPage() {
     formData.append("file", file);
 
     try {
-      const res = await axios.post("/predict", formData, {
+      // Change the URL from "/api/predict" to "/api/model"
+      const res = await axios.post("/api/model", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
