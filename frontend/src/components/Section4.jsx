@@ -44,8 +44,6 @@ const Section4 = () => {
       ) : (
         <div className="hero-bg placeholder" />
       )}
-    
-        <div className="my-text">Section4</div>
       
     </div>
   );

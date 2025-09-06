@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Waste Facility Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            background: #f0f2f5;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c5c1f 0%, #4a8c31 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 24px;
+        }
+        
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding: 8px 15px 8px 35px;
+            border-radius: 20px;
+            border: none;
+            width: 250px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .filter-btn {
+            background: white;
+            color: #2c5c1f;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .location-btn {
+            background: white;
+            color: #2c5c1f;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-box h3 {
+            font-size: 24px;
+            color: #2c5c1f;
+            margin-bottom: 5px;
+        }
+        
+        .stat-box p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .filters {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filters h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .filter-group input {
+            cursor: pointer;
+        }
+        
+        .waste-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .waste-info h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .waste-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .waste-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .waste-type:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .waste-details {
+            flex: 1;
+        }
+        
+        .waste-details h4 {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .waste-details p {
+            font-size: 12px;
+            color: #777;
+        }
+        
+        #map {
+            flex: 1;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .legend h4 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .facility-popup h3 {
+            color: #2c5c1f;
+            margin-bottom: 10px;
+        }
+        
+        .facility-popup p {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .popup-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        
+        .status-inactive {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .loading.spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2c5c1f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        .api-info {
+            background: #e6f4ea;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #137333;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -300px;
+                z-index: 1000;
+                height: calc(100% - 60px);
+                top: 60px;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .search-box input {
+                width: 180px;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            
+            .location-btn {
+                order: 3;
+                margin-top: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            <h1>Global Waste Facility Map</h1>
+        </div>
+        <div class="controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search facilities...">
+            </div>
+            <button class="filter-btn" id="filter-toggle">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+            <button class="location-btn" id="location-btn">
+                <i class="fas fa-location-arrow"></i> My Location
+            </button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="stats">
+                <div class="stat-box">
+                    <h3 id="total-facilities">50</h3>
+                    <p>Total Facilities</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="recycling-count">22</h3>
+                    <p>Recycling Centers</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="waste-count">18</h3>
+                    <p>Waste Disposal</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="hazardous-count">10</h3>
+                    <p>Hazardous Waste</p>
+                </div>
+            </div>
+            
+            <div class="filters">
+                <h3>
+                    Filter Facilities
+                    <span style="font-size: 12px; font-weight: normal;" id="reset-filters">Reset</span>
+                </h3>
+                <div class="filter-options">
+                    <div class="filter-group">
+                        <label>
+                            <input type="checkbox" checked data-filter="recycling">
+                            <span>Recycling Centers</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" checked data-filter="waste">
+                            <span>Waste Disposal</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" checked data-filter="hazardous">
+                            <span>Hazardous Waste</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="waste-info">
+                <h3>Facility Types</h3>
+                <div class="waste-type">
+                    <div class="waste-color" style="background: #16A34A;"></div>
+                    <div class="waste-details">
+                        <h4>Recycling Centers</h4>
+                        <p>Places where materials are recycled</p>
+                    </div>
+                </div>
+                <div class="waste-type">
+                    <div class="waste-color" style="background: #2563EB;"></div>
+                    <div class="waste-details">
+                        <h4>Waste Disposal</h4>
+                        <p>General waste disposal facilities</p>
+                    </div>
+                </div>
+                <div class="waste-type">
+                    <div class="waste-color" style="background: #DC2626;"></div>
+                    <div class="waste-details">
+                        <h4>Hazardous Waste</h4>
+                        <p>Hazardous waste treatment facilities</p>
+                    </div>
+                </div>
+                
+                <div class="api-info">
+                    <i class="fas fa-info-circle"></i> Integrated dataset with 50 facilities worldwide
+                </div>
+            </div>
+        </div>
+        
+        <div id="map"></div>
+    </div>
+    
+    <div class="legend">
+        <h4>Facility Types</h4>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #16A34A;"></div>
+            <span>Recycling</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #2563EB;"></div>
+            <span>Waste Disposal</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #DC2626;"></div>
+            <span>Hazardous Waste</span>
+        </div>
+    </div>
+    
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/09/06/05/20250906052952-HEE04M02.js" defer></script>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize map with a world view
+        const map = L.map('map').setView([30, 0], 2);
+        
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Colored icons for different facility types
+        const icons = {
+            recycling: new L.Icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            }),
+            waste: new L.Icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            }),
+            hazardous: new L.Icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            })
+        };
+        
+        // Create a layer group for facilities
+        const facilitiesLayer = L.layerGroup().addTo(map);
+        
+        // Integrated dataset of waste facilities
+        const wasteFacilities = [
+            { id: 1, name: "London Recycling Centre", type: "recycling", lat: 51.5074, lng: -0.1278, country: "United Kingdom", address: "100 Recycling Way, London", status: "Active", description: "Accepts paper, plastic, glass, and metal" },
+            { id: 2, name: "Paris Waste Disposal", type: "waste", lat: 48.8566, lng: 2.3522, country: "France", address: "200 Waste Management Rd, Paris", status: "Active", description: "General waste disposal facility" },
+            { id: 3, name: "NYC Hazardous Waste Facility", type: "hazardous", lat: 40.7128, lng: -74.0060, country: "USA", address: "300 Hazardous Way, New York", status: "Active", description: "Handles chemicals, batteries, and electronic waste" },
+            { id: 4, name: "Tokyo Recycling Center", type: "recycling", lat: 35.6762, lng: 139.6503, country: "Japan", address: "400 Eco Street, Tokyo", status: "Active", description: "Advanced sorting and recycling technology" },
+            { id: 5, name: "Sydney Waste Management", type: "waste", lat: -33.8688, lng: 151.2093, country: "Australia", address: "500 Disposal Lane, Sydney", status: "Active", description: "Landfill and waste processing facility" },
+            { id: 6, name: "Berlin Recycling", type: "recycling", lat: 52.5200, lng: 13.4050, country: "Germany", address: "600 Green Avenue, Berlin", status: "Active", description: "Paper, plastic, and organic waste recycling" },
+            { id: 7, name: "Moscow Waste Facility", type: "waste", lat: 55.7558, lng: 37.6173, country: "Russia", address: "700 Waste Street, Moscow", status: "Active", description: "Municipal waste collection and processing" },
+            { id: 8, name: "Beijing Hazardous Waste", type: "hazardous", lat: 39.9042, lng: 116.4074, country: "China", address: "800 Chemical Rd, Beijing", status: "Active", description: "Industrial hazardous waste treatment" },
+            { id: 9, name: "Mexico City Recycling", type: "recycling", lat: 19.4326, lng: -99.1332, country: "Mexico", address: "900 Recycle Blvd, Mexico City", status: "Active", description: "Community recycling center" },
+            { id: 10, name: "Sao Paulo Waste Disposal", type: "waste", lat: -23.5505, lng: -46.6333, country: "Brazil", address: "1000 Disposal Way, Sao Paulo", status: "Active", description: "Landfill and waste-to-energy facility" },
+            { id: 11, name: "Toronto Recycling Depot", type: "recycling", lat: 43.6532, lng: -79.3832, country: "Canada", address: "1100 Green Road, Toronto", status: "Active", description: "Accepts all recyclable materials" },
+            { id: 12, name: "Mumbai Waste Facility", type: "waste", lat: 19.0760, lng: 72.8777, country: "India", address: "1200 Waste Lane, Mumbai", status: "Active", description: "Municipal solid waste management" },
+            { id: 13, name: "Cairo Hazardous Waste", type: "hazardous", lat: 30.0444, lng: 31.2357, country: "Egypt", address: "1300 Chemical Street, Cairo", status: "Active", description: "Medical and industrial waste treatment" },
+            { id: 14, name: "Rome Recycling Center", type: "recycling", lat: 41.9028, lng: 12.4964, country: "Italy", address: "1400 Eco Avenue, Rome", status: "Active", description: "Glass, paper, and plastic recycling" },
+            { id: 15, name: "Seoul Waste Management", type: "waste", lat: 37.5665, lng: 126.9780, country: "South Korea", address: "1500 Disposal Road, Seoul", status: "Active", description: "Advanced waste processing facility" },
+            { id: 16, name: "Jakarta Recycling", type: "recycling", lat: -6.2088, lng: 106.8456, country: "Indonesia", address: "1600 Recycle Way, Jakarta", status: "Active", description: "Community recycling program" },
+            { id: 17, name: "Istanbul Waste Facility", type: "waste", lat: 41.0082, lng: 28.9784, country: "Turkey", address: "1700 Waste Street, Istanbul", status: "Active", description: "Municipal waste collection center" },
+            { id: 18, name: "Buenos Aires Hazardous Waste", type: "hazardous", lat: -34.6037, lng: -58.3816, country: "Argentina", address: "1800 Chemical Avenue, Buenos Aires", status: "Active", description: "Industrial waste treatment facility" },
+            { id: 19, name: "Cape Town Recycling", type: "recycling", lat: -33.9249, lng: 18.4241, country: "South Africa", address: "1900 Green Street, Cape Town", status: "Active", description: "Paper and plastic recycling center" },
+            { id: 20, name: "Los Angeles Waste Disposal", type: "waste", lat: 34.0522, lng: -118.2437, country: "USA", address: "2000 Disposal Road, Los Angeles", status: "Active", description: "Landfill and waste processing" },
+            { id: 21, name: "Madrid Recycling Center", type: "recycling", lat: 40.4168, lng: -3.7038, country: "Spain", address: "2100 Eco Avenue, Madrid", status: "Active", description: "Comprehensive recycling facility" },
+            { id: 22, name: "Lagos Waste Management", type: "waste", lat: 6.5244, lng: 3.3792, country: "Nigeria", address: "2200 Waste Way, Lagos", status: "Active", description: "Municipal solid waste collection" },
+            { id: 23, name: "Bangkok Hazardous Waste", type: "hazardous", lat: 13.7563, lng: 100.5018, country: "Thailand", address: "2300 Chemical Road, Bangkok", status: "Active", description: "Industrial and electronic waste treatment" },
+            { id: 24, name: "Berlin Recycling", type: "recycling", lat: 52.5200, lng: 13.4050, country: "Germany", address: "2400 Green Blvd, Berlin", status: "Active", description: "Advanced recycling technology" },
+            { id: 25, name: "Moscow Waste Facility", type: "waste", lat: 55.7558, lng: 37.6173, country: "Russia", address: "2500 Waste Street, Moscow", status: "Active", description: "Municipal waste processing" },
+            { id: 26, name: "Tokyo Hazardous Waste", type: "hazardous", lat: 35.6762, lng: 139.6503, country: "Japan", address: "2600 Chemical Way, Tokyo", status: "Active", description: "Advanced hazardous waste treatment" },
+            { id: 27, name: "London E-Waste Recycling", type: "recycling", lat: 51.5074, lng: -0.1278, country: "United Kingdom", address: "2700 Electronic Recycling, London", status: "Active", description: "Specializes in electronic waste recycling" },
+            { id: 28, name: "New York Organic Recycling", type: "recycling", lat: 40.7128, lng: -74.0060, country: "USA", address: "2800 Compost Way, New York", status: "Active", description: "Food and organic waste composting" },
+            { id: 29, name: "Paris Hazardous Waste", type: "hazardous", lat: 48.8566, lng: 2.3522, country: "France", address: "2900 Chemical Street, Paris", status: "Active", description: "Industrial chemical waste treatment" },
+            { id: 30, name: "Sydney Recycling", type: "recycling", lat: -33.8688, lng: 151.2093, country: "Australia", address: "3000 Green Avenue, Sydney", status: "Active", description: "Community recycling center" },
+            { id: 31, name: "Rio de Janeiro Waste", type: "waste", lat: -22.9068, lng: -43.1729, country: "Brazil", address: "3100 Waste Road, Rio de Janeiro", status: "Active", description: "Municipal waste collection" },
+            { id: 32, name: "Beijing Recycling", type: "recycling", lat: 39.9042, lng: 116.4074, country: "China", address: "3200 Recycle Blvd, Beijing", status: "Active", description: "Plastic and paper recycling" },
+            { id: 33, name: "Cairo Waste Management", type: "waste", lat: 30.0444, lng: 31.2357, country: "Egypt", address: "3300 Disposal Street, Cairo", status: "Active", description: "Municipal solid waste processing" },
+            { id: 34, name: "Delhi Hazardous Waste", type: "hazardous", lat: 28.7041, lng: 77.1025, country: "India", address: "3400 Chemical Road, Delhi", status: "Active", description: "Industrial waste treatment facility" },
+            { id: 35, name: "Toronto Waste Disposal", type: "waste", lat: 43.6532, lng: -79.3832, country: "Canada", address: "3500 Waste Way, Toronto", status: "Active", description: "Landfill and waste management" },
+            { id: 36, name: "Seoul Recycling", type: "recycling", lat: 37.5665, lng: 126.9780, country: "South Korea", address: "3600 Green Street, Seoul", status: "Active", description: "Advanced recycling technology" },
+            { id: 37, name: "Mexico City Hazardous Waste", type: "hazardous", lat: 19.4326, lng: -99.1332, country: "Mexico", address: "3700 Chemical Avenue, Mexico City", status: "Active", description: "Industrial chemical treatment" },
+            { id: 38, name: "Istanbul Recycling", type: "recycling", lat: 41.0082, lng: 28.9784, country: "Turkey", address: "3800 Recycle Road, Istanbul", status: "Active", description: "Community recycling program" },
+            { id: 39, name: "Jakarta Waste Management", type: "waste", lat: -6.2088, lng: 106.8456, country: "Indonesia", address: "3900 Disposal Way, Jakarta", status: "Active", description: "Municipal waste collection" },
+            { id: 40, name: "Buenos Aires Recycling", type: "recycling", lat: -34.6037, lng: -58.3816, country: "Argentina", address: "4000 Green Blvd, Buenos Aires", status: "Active", description: "Paper and plastic recycling" },
+            { id: 41, name: "Cape Town Hazardous Waste", type: "hazardous", lat: -33.9249, lng: 18.4241, country: "South Africa", address: "4100 Chemical Street, Cape Town", status: "Active", description: "Medical and industrial waste treatment" },
+            { id: 42, name: "Los Angeles Recycling", type: "recycling", lat: 34.0522, lng: -118.2437, country: "USA", address: "4200 Recycle Way, Los Angeles", status: "Active", description: "Comprehensive recycling center" },
+            { id: 43, name: "Madrid Waste Management", type: "waste", lat: 40.4168, lng: -3.7038, country: "Spain", address: "4300 Waste Road, Madrid", status: "Active", description: "Municipal waste processing" },
+            { id: 44, name: "Lagos Recycling", type: "recycling", lat: 6.5244, lng: 3.3792, country: "Nigeria", address: "4400 Green Avenue, Lagos", status: "Active", description: "Community recycling initiative" },
+            { id: 45, name: "Bangkok Waste Disposal", type: "waste", lat: 13.7563, lng: 100.5018, country: "Thailand", address: "4500 Disposal Street, Bangkok", status: "Active", description: "Municipal solid waste management" },
+            { id: 46, name: "Chicago Hazardous Waste", type: "hazardous", lat: 41.8781, lng: -87.6298, country: "USA", address: "4600 Chemical Road, Chicago", status: "Active", description: "Industrial waste treatment facility" },
+            { id: 47, name: "Mumbai Recycling", type: "recycling", lat: 19.0760, lng: 72.8777, country: "India", address: "4700 Recycle Blvd, Mumbai", status: "Active", description: "Plastic and paper recycling" },
+            { id: 48, name: "Rome Hazardous Waste", type: "hazardous", lat: 41.9028, lng: 12.4964, country: "Italy", address: "4800 Chemical Way, Rome", status: "Active", description: "Industrial chemical treatment" },
+            { id: 49, name: "Shanghai Waste Management", type: "waste", lat: 31.2304, lng: 121.4737, country: "China", address: "4900 Waste Street, Shanghai", status: "Active", description: "Municipal waste processing" },
+            { id: 50, name: "Berlin Hazardous Waste", type: "hazardous", lat: 52.5200, lng: 13.4050, country: "Germany", address: "5000 Chemical Avenue, Berlin", status: "Active", description: "Advanced hazardous waste treatment" }
+        ];
+
+        // Function to load facilities on the map
+        function loadFacilities() {
+            facilitiesLayer.clearLayers();
+            
+            // Count facilities by type
+            let recyclingCount = 0;
+            let wasteCount = 0;
+            let hazardousCount = 0;
+            const countries = new Set();
+            
+            // Add facilities to map
+            wasteFacilities.forEach(facility => {
+                const marker = L.marker([facility.lat, facility.lng], { icon: icons[facility.type] });
+                
+                const statusClass = facility.status === "Active" ? "status-active" : "status-inactive";
+                
+                marker.bindPopup(`
+                    <div class="facility-popup">
+                        <h3>${facility.name}</h3>
+                        <p><strong>Type:</strong> ${facility.type.charAt(0).toUpperCase() + facility.type.slice(1)}</p>
+                        <p><strong>Address:</strong> ${facility.address}, ${facility.country}</p>
+                        <p><strong>Status:</strong> <span class="popup-status ${statusClass}">${facility.status}</span></p>
+                        <p><strong>Description:</strong> ${facility.description}</p>
+                    </div>
+                `);
+                
+                // Update counts
+                if (facility.type === 'recycling') recyclingCount++;
+                else if (facility.type === 'waste') wasteCount++;
+                else if (facility.type === 'hazardous') hazardousCount++;
+                
+                countries.add(facility.country);
+                
+                // Store facility type for filtering
+                marker._facilityType = facility.type;
+                
+                facilitiesLayer.addLayer(marker);
+            });
+            
+            // Update statistics
+            document.getElementById('total-facilities').textContent = wasteFacilities.length;
+            document.getElementById('recycling-count').textContent = recyclingCount;
+            document.getElementById('waste-count').textContent = wasteCount;
+            document.getElementById('hazardous-count').textContent = hazardousCount;
+        }
+        
+        // Filter functionality
+        const filterCheckboxes = document.querySelectorAll('input[data-filter]');
+        
+        function filterFacilities() {
+            const visibleTypes = [];
+            filterCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    visibleTypes.push(checkbox.getAttribute('data-filter'));
+                }
+            });
+            
+            facilitiesLayer.eachLayer(layer => {
+                if (visibleTypes.includes(layer._facilityType)) {
+                    map.addLayer(layer);
+                } else {
+                    map.removeLayer(layer);
+                }
+            });
+        }
+        
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filterFacilities);
+        });
+        
+        // Reset filters
+        document.getElementById('reset-filters').addEventListener('click', function() {
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            filterFacilities();
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            
+            facilitiesLayer.eachLayer(layer => {
+                const popupContent = layer._popup ? layer._popup._content.toLowerCase() : '';
+                
+                if (popupContent.includes(query)) {
+                    map.addLayer(layer);
+                } else {
+                    map.removeLayer(layer);
+                }
+            });
+        });
+        
+        // Toggle sidebar on mobile
+        document.getElementById('filter-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking on the map
+        map.on('click', function() {
+            document.getElementById('sidebar').classList.remove('active');
+        });
+        
+        // Location button functionality
+        document.getElementById('location-btn').addEventListener('click', function() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    map.setView([lat, lng], 10);
+                }, function(error) {
+                    alert("Unable to get your location. Please check your browser settings.");
+                });
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        });
+        
+        // Start the application
+        loadFacilities();
+    </script>
+</body>
+</html>
