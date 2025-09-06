@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import rulesRoutes from "./routes/rulesRoutes.js";
-import facilityRoutes from "./routes/facilityRoutes.js";
+import rulesRoutes from "./src/routes/rulesRoutes.js";
+import facilityRoutes from "./src/routes/facilityRoutes.js";
 
 
 dotenv.config();

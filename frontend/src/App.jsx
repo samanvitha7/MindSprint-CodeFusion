@@ -1,11 +1,14 @@
 import React from "react";
+import {Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import ScanObjectPage from "./pages/ScanObjectPage.jsx";
 
 function App() {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/scanobject" element={<ScanObjectPage />} />
+    </Routes>
   );
 }
 
