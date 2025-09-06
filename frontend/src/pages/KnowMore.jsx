@@ -46,7 +46,7 @@ const KnowMore = () => {
           </div>
 
           {/* Right: Details (60%) */}
-          <div className="w-full lg:w-[65%] mt-6 lg:mt-0">
+          <div className="w-full lg:w-[60%]">
             <div className="bg-white rounded-2xl shadow-inner p-6">
               <h2 className="text-2xl font-bold text-green-700 mb-4">
                 Waste Management Guide
@@ -57,47 +57,20 @@ const KnowMore = () => {
                 dispose of it, understand its environmental impact, and
                 discover eco-friendly alternatives.
               </p>
-
-              {activeIndex !== null ? (
-                <div className="flex flex-col md:flex-row items-center gap-6">
-                  <img
-                    src={WASTE_TYPES[activeIndex].image}
-                    alt={WASTE_TYPES[activeIndex].category}
-                    className="w-32 h-32 object-contain rounded-lg shadow-md"
-                  />
-                  <div>
-                    <h3 className="text-xl font-semibold text-green-800">
-                      {WASTE_TYPES[activeIndex].category}
-                    </h3>
-                    <p className="text-gray-700 mt-2 italic">
-                      {WASTE_TYPES[activeIndex].fact}
-                    </p>
-                    <button
-                      onClick={() => setIsModalOpen(true)}
-                      className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-700 transition-colors"
-                    >
-                      Open Detailed Panel
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="bg-soft/20 p-4 rounded-lg text-center">
-                  <p className="text-gray-600">
-                    Click on a segment of the wheel to learn more about that
-                    waste type.
-                  </p>
-                </div>
-              )}
+              
+              <p className="text-gray-700 mb-6 text-center italic">
+                Click on a segment of the wheel to learn more about that waste type.
+              </p>
             </div>
 
             {/* Educational content */}
-            <div className="mt-6 flex justify-center">
-              <div className="w-full max-w-5xl bg-white rounded-2xl shadow-inner p-8">
+            <div className="mt-6">
+              <div className="w-full bg-white rounded-2xl shadow-inner p-6 md:p-8">
                 <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">
                   Why Proper Waste Management Matters
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-soft/20 p-4 rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="bg-green-100 p-4 rounded-lg">
                     <h3 className="font-semibold text-forest mb-2">
                       Environmental Protection
                     </h3>
@@ -106,7 +79,7 @@ const KnowMore = () => {
                       and air.
                     </p>
                   </div>
-                  <div className="bg-soft/20 p-4 rounded-lg">
+                  <div className="bg-green-100 p-4 rounded-lg">
                     <h3 className="font-semibold text-forest mb-2">
                       Resource Conservation
                     </h3>
@@ -114,7 +87,7 @@ const KnowMore = () => {
                       Recycling reduces the need for raw resource extraction.
                     </p>
                   </div>
-                  <div className="bg-soft/20 p-4 rounded-lg">
+                  <div className="bg-green-100 p-4 rounded-lg">
                     <h3 className="font-semibold text-forest mb-2">
                       Energy Savings
                     </h3>
@@ -122,7 +95,7 @@ const KnowMore = () => {
                       Recycling uses less energy than producing new materials.
                     </p>
                   </div>
-                  <div className="bg-soft/20 p-4 rounded-lg">
+                  <div className="bg-green-100 p-4 rounded-lg">
                     <h3 className="font-semibold text-forest mb-2">
                       Economic Benefits
                     </h3>
