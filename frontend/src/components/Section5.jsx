@@ -1,12 +1,12 @@
-// Section3.jsx
+// Section5.jsx
 import React, { useEffect, useRef, useState } from "react";
-import "./Section2.css";
+import "./Section5.css";
 
 const handleAnimationComplete = () => {
   console.log("✅ All letters have animated!");
 };
 
-const Section2 = () => {
+const Section5 = () => {
   const sectionRef = useRef(null);
   const [revealed, setRevealed] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -30,7 +30,7 @@ const Section2 = () => {
   return (
     <div
       ref={sectionRef}
-      className={`section2 ${revealed ? "revealed" : ""}`}
+      className={`section5 ${revealed ? "revealed" : ""}`}
     >
       {mounted ? (
         <video
@@ -39,17 +39,16 @@ const Section2 = () => {
           muted
           playsInline
           className="hero-bg"
-          src="https://res.cloudinary.com/dgt1r41n8/video/upload/v1757102506/Section2_omn0jd.mp4"
+          src="https://res.cloudinary.com/dgt1r41n8/video/upload/v1757188328/Section4_p1egzi.mp4"
         />
       ) : (
         <div className="hero-bg placeholder" />
       )}
-       {/* Text overlay */}
-      <div className="text">
-        <h1 className="text-title !text-[#e5f3dd]">The Effort</h1>
+       <div className="text">
+        <h1 className="text-title !text-[#e5f3dd]">The Result</h1>
       </div>
     </div>
   );
 };
 
-export default Section2;
+export default Section5;
