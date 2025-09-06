@@ -31,12 +31,17 @@ const Header = () => {
 
         {/* Navigation */}
        <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-[#214b45] font-extrabold tracking-wide">
-
+          <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
+            <Link to="/scan">Scan Object</Link>
+          </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/knowmore">Know More</Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/map">Map</Link>
+          </li>
+          <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
+            <Link to="/ecohacks">EcoHacks</Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/about">About Us</Link>
@@ -64,17 +69,19 @@ const Header = () => {
         </div>
 
         {/* Button */}
-        <button
+        <Link 
+          to="/scan"
           className="hidden md:block ml-10 px-6 py-2 rounded-lg
           bg-gradient-to-r from-forest/80 to-mint/80
           text-navy font-poppins font-semibold shadow-sm
           transition-all duration-500 transform
           hover:scale-105
           hover:bg-gradient-to-l from-forest/80 to-mint/80 hover:text-navy
+          text-center
           "
         >
           Scan Object
-        </button>
+        </Link>
       </nav>
     </header>
   );
