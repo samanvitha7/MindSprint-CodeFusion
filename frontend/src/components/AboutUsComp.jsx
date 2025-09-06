@@ -3,19 +3,19 @@ import { motion } from "framer-motion";
 const timeline = [
   {
     title: "The Problem",
-    text: "Indian art forms are fading away due to lack of exposure and modern engagement.",
+    text: "Most people misidentify waste, leading to recycling contamination and environmental harm.",
     side: "left",
     gradient: "from-forest/80 to-mint/80",
   },
   {
     title: "Our Mission",
-    text: "To preserve and promote these forms through a beautiful, interactive web platform.",
+    text: "We use image recognition to instantly identify waste and guide proper recycling.",
     side: "right",
     gradient: "from-forest/80 to-mint/80",
   },
   {
     title: "The Impact",
-    text: "We aim to help artists and enthusiasts connect, learn, and celebrate these crafts.",
+    text: "Cleaner recycling streams, less landfill waste, and a step toward a sustainable future.",
     side: "left",
     gradient: "from-forest/80 to-mint/80",
   }
