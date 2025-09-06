@@ -4,10 +4,6 @@ import Facility from "../models/facilityModel.js";
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.error(err));
-
 // 50 Facilities distributed across all 7 continents
 const facilities = [
   // NORTH AMERICA (10 facilities)
@@ -75,14 +71,66 @@ const facilities = [
   { id: 50, name: "Rothera Science Recycling", type: "recycling", lat: -67.5678, lng: -68.1271, country: "Antarctica (UK)", continent: "Antarctica", address: "Research Base Beta, Rothera", status: "Active", description: "Scientific waste recycling in Antarctica" }
 ];
 
-const seedDB = async () => {
+const connectDB = async () => {
   try {
-    await Facility.insertMany(facilities);
-    console.log("Facilities added!");
-    mongoose.disconnect();
-  } catch (err) {
-    console.error(err);
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ MongoDB Connected successfully");
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error.message);
+    process.exit(1);
   }
 };
 
-seedDB();
+const populateFacilities = async () => {
+  try {
+    // Clear existing facilities
+    console.log("🗑️  Clearing existing facilities...");
+    await Facility.deleteMany({});
+    
+    // Insert new facilities
+    console.log("📥 Inserting 50 new facilities...");
+    const result = await Facility.insertMany(facilities, { ordered: false });
+    
+    console.log(`✅ Successfully inserted ${result.length} facilities!`);
+    
+    // Display distribution by continent
+    const distribution = facilities.reduce((acc, facility) => {
+      acc[facility.continent] = (acc[facility.continent] || 0) + 1;
+      return acc;
+    }, {});
+    
+    console.log("\n🌍 Facility Distribution by Continent:");
+    Object.entries(distribution).forEach(([continent, count]) => {
+      console.log(`   ${continent}: ${count} facilities`);
+    });
+    
+    // Display distribution by type
+    const typeDistribution = facilities.reduce((acc, facility) => {
+      acc[facility.type] = (acc[facility.type] || 0) + 1;
+      return acc;
+    }, {});
+    
+    console.log("\n♻️  Facility Distribution by Type:");
+    Object.entries(typeDistribution).forEach(([type, count]) => {
+      console.log(`   ${type}: ${count} facilities`);
+    });
+    
+  } catch (error) {
+    console.error("❌ Error populating facilities:", error.message);
+  } finally {
+    mongoose.disconnect();
+    console.log("🔌 Database connection closed");
+  }
+};
+
+// Run the population script
+const main = async () => {
+  console.log("🚀 Starting facility population script...");
+  await connectDB();
+  await populateFacilities();
+};
+
+main();

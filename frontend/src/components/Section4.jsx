@@ -44,7 +44,9 @@ const Section4 = () => {
       ) : (
         <div className="hero-bg placeholder" />
       )}
-      
+       <div className="text">
+        <h1 className="text-title winky-font">The Solution</h1>
+      </div>
     </div>
   );
 };

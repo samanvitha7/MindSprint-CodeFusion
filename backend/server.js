@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import rulesRoutes from "./src/routes/rulesRoutes.js";
 import facilityRoutes from "./src/routes/facilityRoutes.js";
+import modelRoutes from "./routes/modelRoutes.js";
 
 dotenv.config();
 
@@ -35,6 +36,10 @@ mongoose.connect(mongoUri, {
 app.get("/", (req, res) => res.send("Backend is running"));
 app.use("/api/rules", rulesRoutes);
 app.use("/api/facilities", facilityRoutes);
+app.use("/api/model", modelRoutes);
+
+// Serve uploaded files statically
+app.use("/uploads", express.static("uploads"));
 
 // Server start
 const PORT = process.env.PORT || 5000;

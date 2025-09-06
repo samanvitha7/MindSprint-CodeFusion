@@ -1,11 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": " server.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,7 +14,10 @@
     "expressjs": "^1.0.1",
     "leaflet": "^1.9.4",
     "mongoose": "^7.8.7",
+    "multer": "^2.0.2",
+    "node.js": "^0.0.1-security",
     "nodemon": "^3.0.1",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "sharp": "^0.34.3"
   }
 }

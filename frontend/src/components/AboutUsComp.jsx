@@ -15,7 +15,7 @@ const timeline = [
   },
   {
     title: "The Impact",
-    text: "Cleaner recycling streams, less landfill waste, and a step toward a sustainable future.",
+    text: "We aim to help artists and enthusiasts connect, learn, and celebrate these crafts.",
     side: "left",
     gradient: "from-forest/80 to-mint/80",
   }

@@ -33,12 +33,15 @@ const Header = () => {
 
         {/* Navigation */}
        <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-[#214b45] font-extrabold tracking-wide">
-
+          
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/knowmore">Know More</Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/map">Map</Link>
+          </li>
+          <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
+            <Link to="/ecohacks">EcoHacks</Link>
           </li>
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/about">About Us</Link>
@@ -78,6 +81,7 @@ const Header = () => {
           transition-all duration-500 transform
           hover:scale-105
           hover:bg-gradient-to-l from-forest/80 to-mint/80 hover:text-navy
+          text-center
           "
         />
       </Link>
