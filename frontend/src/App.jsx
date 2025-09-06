@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import KnowMore from "./pages/KnowMore";
 import About from "./pages/About";
 import MapPage from "./pages/MapPage";
+import Ecohacks from "./pages/ecohacks";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/map" element={<MapPage />} />
 
       <Route path="/knowmore" element={<KnowMore />} />
+      <Route path="/ecohacks" element={<Ecohacks />} />
 
     </Routes>
   );
