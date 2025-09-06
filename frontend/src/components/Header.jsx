@@ -21,9 +21,13 @@ const Header = () => {
     >
       <nav className="container mx-auto flex items-center justify-between px-4 md:px-10 py-4">
         {/* Logo */}
-        <div className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-navy to-forest tracking-wide transform transition-transform duration-300 hover:scale-110">
-          Green Vision
-        </div>
+        <Link 
+    to="/" 
+    className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-navy to-forest tracking-wide transform transition-transform duration-300 hover:scale-110"
+    >
+    Green Vision
+    </Link>
+
 
         {/* Navigation */}
         <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-navy font-semibold tracking-wide">
@@ -65,8 +69,8 @@ const Header = () => {
           text-navy font-poppins font-semibold shadow-sm
           transition-all duration-500 transform
           hover:scale-105
-          hover:bg-navy hover:text-soft
-          hover:shadow-[0_0_25px_#97cead]"
+          hover:bg-gradient-to-l from-forest/80 to-mint/80 hover:text-navy
+          "
         >
           Scan Object
         </button>
