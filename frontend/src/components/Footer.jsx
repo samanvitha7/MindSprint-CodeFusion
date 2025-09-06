@@ -1,7 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const [footerEmail, setFooterEmail] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleFooterSubmit = () => {
+    if (footerEmail) {
+      // Save email in sessionStorage
+      sessionStorage.setItem("prefillEmail", footerEmail);
+
+      if (location.pathname === "/about") {
+        // Already on About → scroll directly
+        const contactForm = document.getElementById("contact-form");
+        if (contactForm) {
+          contactForm.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // Navigate to About page first
+        navigate("/about");
+      }
+    }
+  };
+
   return (
     <footer className="bg-gradient-to-br from-navy/95 to-forest/90 text-soft">
       {/* Main Footer Content */}
@@ -13,13 +35,9 @@ const Footer = () => {
               Green Vision
             </div>
             <p className="text-soft/80 font-poppins leading-relaxed mb-6 max-w-md">
-              Empowering sustainable choices through AI-powered waste classification and environmental awareness.
+              Empowering sustainable choices through AI-powered waste
+              classification and environmental awareness.
             </p>
-
-            {/* Social Media Icons */}
-            <div className="flex space-x-4">
-              {/* ...your SVG icons stay the same... */}
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -98,9 +116,12 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
+                value={footerEmail}
+                onChange={(e) => setFooterEmail(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-lg bg-soft/10 border border-soft/20 text-soft placeholder-soft/60 font-poppins focus:outline-none focus:ring-2 focus:ring-mint/50 transition-all duration-300"
               />
               <button
+                onClick={handleFooterSubmit}
                 className="px-6 py-3 rounded-lg bg-mint text-navy font-poppins font-semibold transition-all duration-300 transform hover:scale-110"
               >
                 Submit
