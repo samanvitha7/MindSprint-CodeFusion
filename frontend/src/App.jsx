@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import KnowMore from "./pages/KnowMore";
 import About from "./pages/About";
 import MapPage from "./pages/MapPage";
+import WasteScanPage from "./pages/WasteScanPage";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

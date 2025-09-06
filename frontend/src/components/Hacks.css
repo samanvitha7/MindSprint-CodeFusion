@@ -1,0 +1,54 @@
+/* Apply the greenish background to the whole page */
+body {
+  background-color: #e5f3dd;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Page wrapper ensures min height covers whole viewport */
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #e5f3dd;
+}
+
+/* Category cards */
+.category-card {
+  background-color: white;
+}
+
+/* Navbar styles (to match background) */
+.navbar {
+  background-color: #e5f3dd;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: #2a6250;
+  margin: 0 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Button */
+button,
+.nav-btn {
+  background-color: #2a6250;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover,
+.nav-btn:hover {
+  background-color: #1f493c;
+}
