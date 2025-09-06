@@ -6,7 +6,7 @@ import KnowMore from "./pages/KnowMore";
 import About from "./pages/About";
 import MapPage from "./pages/MapPage";
 import WasteScanPage from "./pages/WasteScanPage";
-
+import Ecohacks from "./pages/ecohacks";
 function App() {
   return (
     <Routes>
