@@ -30,7 +30,8 @@ const Header = () => {
 
 
         {/* Navigation */}
-        <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-navy font-semibold tracking-wide">
+       <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-[#214b45] font-extrabold tracking-wide">
+
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/knowmore">Know More</Link>
           </li>
