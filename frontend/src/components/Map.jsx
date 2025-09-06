@@ -179,6 +179,7 @@ const Map = () => {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMapStyle, setSelectedMapStyle] = useState('cartodb'); // Default to CartoDB for better English labels
+  const [showLegend, setShowLegend] = useState(false); // State for legend visibility
 
   // Fetch facilities from backend
   useEffect(() => {
@@ -244,10 +245,10 @@ const Map = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-soft">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading facilities...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-forest mx-auto mb-4"></div>
+          <p className="text-navy font-medium">Loading facilities...</p>
         </div>
       </div>
     );
@@ -255,11 +256,11 @@ const Map = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      <div className="flex items-center justify-center h-screen bg-soft">
+        <div className="text-center bg-mint/30 text-navy px-6 py-4 rounded-lg">
           <h2 className="text-xl font-semibold mb-2">Error Loading Map</h2>
-          <p>{error}</p>
-          <p className="text-sm mt-2">
+          <p className="text-forest">{error}</p>
+          <p className="text-sm mt-2 text-forest">
             Please ensure the backend server is running on port 5000
           </p>
         </div>
@@ -270,43 +271,43 @@ const Map = () => {
   return (
     <div className="h-screen w-full flex">
       {/* Sidebar */}
-      <div className="w-80 bg-gray-50 border-r border-gray-200 p-6 overflow-y-auto">
+      <div className="w-80 bg-soft p-6 overflow-y-auto">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2 flex items-center">
-            <span className="mr-2">🌍</span>
+          <h1 className="text-2xl font-bold text-navy mb-2 flex items-center">
+            <span className="mr-2"></span>
             Global Waste Facility Map
           </h1>
-          <p className="text-gray-600 text-sm mb-2">
+          <p className="text-forest text-sm mb-2">
             Real-time data with {facilities.length} facilities worldwide
           </p>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs">
-            <p className="text-blue-800 font-semibold mb-1">🗺️ Map View: All 7 Continents</p>
-            <p className="text-blue-700">Zoom is optimized to show global waste facilities across North America, South America, Europe, Africa, Asia, Oceania, and Antarctica regions.</p>
+          <div className="bg-mint/30 rounded-lg p-3 text-xs">
+            <p className="text-navy font-semibold mb-1">🗺️ Map View: All 7 Continents</p>
+            <p className="text-forest">Zoom is optimized to show global waste facilities across North America, South America, Europe, Africa, Asia, Oceania, and Antarctica regions.</p>
           </div>
         </div>
 
         {/* Statistics */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-            <h3 className="text-2xl font-bold text-green-600">{stats.total}</h3>
-            <p className="text-xs text-gray-600">Total Facilities</p>
+          <div className="bg-mint/20 p-4 rounded-lg text-center">
+            <h3 className="text-2xl font-bold text-navy">{stats.total}</h3>
+            <p className="text-xs text-forest font-medium">Total Facilities</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-            <h3 className="text-2xl font-bold text-green-500">
+          <div className="bg-mint/20 p-4 rounded-lg text-center">
+            <h3 className="text-2xl font-bold text-green-600">
               {stats.recycling}
             </h3>
-            <p className="text-xs text-gray-600">Recycling Centers</p>
+            <p className="text-xs text-forest font-medium">Recycling Centers</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+          <div className="bg-mint/20 p-4 rounded-lg text-center">
             <h3 className="text-2xl font-bold text-blue-600">{stats.waste}</h3>
-            <p className="text-xs text-gray-600">Waste Disposal</p>
+            <p className="text-xs text-forest font-medium">Waste Disposal</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+          <div className="bg-mint/20 p-4 rounded-lg text-center">
             <h3 className="text-2xl font-bold text-red-600">
               {stats.hazardous}
             </h3>
-            <p className="text-xs text-gray-600">Hazardous Waste</p>
+            <p className="text-xs text-forest font-medium">Hazardous Waste</p>
           </div>
         </div>
 
@@ -318,11 +319,11 @@ const Map = () => {
               placeholder="Search facilities..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 bg-mint/20 rounded-lg focus:ring-2 focus:ring-forest focus:bg-mint/30 transition-colors placeholder-forest/60 text-navy"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg
-                className="h-5 w-5 text-gray-400"
+                className="h-5 w-5 text-forest"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -339,8 +340,8 @@ const Map = () => {
         </div>
 
         {/* Map Style Selector */}
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">
+        <div className="bg-mint/20 p-4 rounded-lg mb-4">
+          <h3 className="text-lg font-semibold text-navy mb-3">
             🌎 Map Style (English)
           </h3>
           <div className="space-y-2">
@@ -352,9 +353,9 @@ const Map = () => {
                   value={key}
                   checked={selectedMapStyle === key}
                   onChange={(e) => setSelectedMapStyle(e.target.value)}
-                  className="mr-3 text-blue-600 focus:ring-blue-500"
+                  className="mr-3 text-forest focus:ring-forest"
                 />
-                <span className="text-gray-700 capitalize">
+                <span className="text-forest font-medium capitalize">
                   {key === 'openstreetmap' ? 'OpenStreetMap' : 
                    key === 'cartodb' ? 'CartoDB (Recommended)' : 
                    key === 'esri' ? 'Esri World Map' : key}
@@ -362,20 +363,20 @@ const Map = () => {
               </label>
             ))}
           </div>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-navy mt-2">
             ℹ️ All map styles display labels in English
           </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+        <div className="bg-mint/20 p-4 rounded-lg mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold text-navy">
               Filter Facilities
             </h3>
             <button
               onClick={resetFilters}
-              className="text-sm text-gray-500 hover:text-green-600 transition-colors"
+              className="px-3 py-1 bg-forest text-white text-sm rounded-full hover:bg-navy transition-colors font-medium"
             >
               Reset
             </button>
@@ -388,7 +389,7 @@ const Map = () => {
                   type="checkbox"
                   checked={filters[type]}
                   onChange={() => handleFilterChange(type)}
-                  className="mr-3 rounded text-green-600 focus:ring-green-500"
+                  className="mr-3 rounded text-forest focus:ring-forest"
                 />
                 <div
                   className={`w-4 h-4 rounded-full mr-2 ${
@@ -399,7 +400,7 @@ const Map = () => {
                       : "bg-red-500"
                   }`}
                 ></div>
-                <span className="text-gray-700 capitalize">
+                <span className="text-forest font-medium capitalize">
                   {type} Centers
                 </span>
               </label>
@@ -512,51 +513,74 @@ const Map = () => {
           })}
         </MapContainer>
 
-        {/* Legend */}
-        <div className="absolute bottom-6 right-6 bg-white p-4 rounded-lg shadow-lg border z-[1000] max-w-xs">
-          <h4 className="text-sm font-semibold text-gray-800 mb-3">
-            🌍 Global Facility Map <span className="text-xs font-normal text-gray-500">(English)</span>
-          </h4>
-          
-          {/* Map Info */}
-          <div className="mb-4 p-2 bg-blue-50 rounded text-xs">
-            <p className="text-blue-800 font-medium mb-1">📍 Coverage: All 7 Continents</p>
-            <p className="text-blue-600">50 Facilities across the globe</p>
-            <p className="text-blue-600">Smart zoom limits - no background visible</p>
-            <p className="text-blue-800 italic mt-1 text-[10px]">All map labels display in English</p>
-          </div>
+        {/* Legend Toggle Button */}
+        <button
+          onClick={() => setShowLegend(!showLegend)}
+          className="absolute bottom-6 right-6 bg-navy hover:bg-forest text-white p-3 rounded-lg shadow-lg z-[1000] transition-colors duration-200 flex items-center justify-center"
+          title={showLegend ? "Hide Legend" : "Show Legend"}
+        >
+          <span className="text-lg">🌍</span>
+          <span className="ml-2 text-sm font-medium">
+            {showLegend ? "Hide" : "Legend"}
+          </span>
+        </button>
 
-          {/* Facility Types */}
-          <h5 className="text-xs font-semibold text-gray-700 mb-2">Facility Types:</h5>
-          <div className="space-y-2">
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-              <span className="text-xs text-gray-700">Recycling Centers</span>
+        {/* Legend Card - Conditionally Rendered */}
+        {showLegend && (
+          <div className="absolute bottom-20 right-6 bg-soft p-4 rounded-lg shadow-lg z-[1000] max-w-xs animate-in slide-in-from-bottom-2 duration-200">
+            <div className="flex justify-between items-center mb-3">
+              <h4 className="text-sm font-semibold text-navy">
+              Global Facility Map <span className="text-xs font-normal text-forest">(English)</span>
+              </h4>
+              <button
+                onClick={() => setShowLegend(false)}
+                className="bg-forest hover:bg-navy text-white px-2 py-1 rounded-full text-xs font-bold transition-colors"
+                title="Close Legend"
+              >
+                ✕
+              </button>
             </div>
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-              <span className="text-xs text-gray-700">Waste Disposal</span>
+            
+            Map Info
+            <div className="mb-4 p-3 bg-mint/30 rounded-lg text-xs">
+              <p className="text-navy font-semibold mb-1">📍 Coverage: All 7 Continents</p>
+              <p className="text-forest mb-1">50 Facilities across the globe</p>
+              <p className="text-forest mb-1">Smart zoom limits - no background visible</p>
+              <p className="text-navy font-medium mt-2 text-[10px]">All map labels display in English</p>
             </div>
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-              <span className="text-xs text-gray-700">Hazardous Waste</span>
-            </div>
-          </div>
 
-          {/* Continent Coverage */}
-          <div className="mt-3 pt-2 border-t border-gray-200">
-            <h5 className="text-xs font-semibold text-gray-700 mb-2">Continental Coverage:</h5>
-            <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
-              <span>🌎 N. America</span>
-              <span>🌍 Europe</span>
-              <span>🌏 Asia</span>
-              <span>🌍 Africa</span>
-              <span>🌎 S. America</span>
-              <span>🌏 Oceania</span>
-              <span className="col-span-2 text-center">❄️ Antarctica</span>
+            {/* Facility Types */}
+            <h5 className="text-xs font-semibold text-navy mb-2">Facility Types:</h5>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                <span className="text-xs text-forest font-medium">Recycling Centers</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                <span className="text-xs text-forest font-medium">Waste Disposal</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                <span className="text-xs text-forest font-medium">Hazardous Waste</span>
+              </div>
+            </div>
+
+            {/* Continent Coverage */}
+            <div className="mt-3 pt-2 border-t border-mint">
+              <h5 className="text-xs font-semibold text-navy mb-2">Continental Coverage:</h5>
+              <div className="grid grid-cols-2 gap-1 text-xs text-forest font-medium">
+                <span>N. America</span>
+                <span>Europe</span>
+                <span>Asia</span>
+                <span>Africa</span>
+                <span>S. America</span>
+                <span>Oceania</span>
+                <span className="col-span-2 text-center text-navy">❄️ Antarctica</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
