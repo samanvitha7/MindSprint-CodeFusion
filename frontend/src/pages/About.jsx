@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "../components/Header.jsx";  
-import AboutUsComp from "../components/AboutUsComp.jsx";
-import Footer from "../components/Footer.jsx";
+import Header from "../components/Header";  
+import AboutUsComp from "../components/AboutUsComp";
+import Footer from "../components/Footer";
+import ContactForm from "../components/ContactUs"; // ✅ correct import
 
 const About = () => {
   return (
@@ -9,8 +10,14 @@ const About = () => {
       {/* Navbar */}
       <Header />   
 
+      {/* About content */}
       <AboutUsComp />
-      <Footer/>
+
+      {/* ✅ New Contact Form */}
+      <ContactForm />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
