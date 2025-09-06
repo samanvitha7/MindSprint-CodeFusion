@@ -43,7 +43,8 @@ const Section1 = () => {
 
       {/* Text overlay */}
       <div className="text">
-        <h1 className="text-title winky-font text-soft">The Problem</h1>
+        <h1 className="text-title !text-[#e5f3dd]">The Problem</h1>
+
 
       </div>
     </div>

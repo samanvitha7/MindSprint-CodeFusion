@@ -45,7 +45,7 @@ const Section3 = () => {
         <div className="hero-bg placeholder" />
       )}
        <div className="text">
-        <h1 className="text-title winky-font">The Idea</h1>
+        <h1 className="text-title !text-[#e5f3dd]">The Idea</h1>
       </div>
     </div>
   );
