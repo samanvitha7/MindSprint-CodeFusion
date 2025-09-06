@@ -1,3 +1,4 @@
+// App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
@@ -6,6 +7,7 @@ import KnowMore from "./pages/KnowMore";
 import About from "./pages/About";
 import MapPage from "./pages/MapPage";
 import WasteScanPage from "./pages/WasteScanPage";
+import Ecohacks from "./pages/ecohacks"; // ✅ Capitalized import
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,9 +20,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/knowmore" element={<KnowMore />} />
+        <Route path="/ecohacks" element={<Ecohacks />} /> {/* ✅ Fixed */}
       </Routes>
 
-      {/* Toast notifications for user feedback */}
+      {/* Toast notifications */}
       <ToastContainer
         position="top-right"
         autoClose={4000}
