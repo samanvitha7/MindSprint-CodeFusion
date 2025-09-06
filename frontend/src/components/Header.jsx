@@ -65,9 +65,19 @@ const Header = () => {
         </div>
 
         {/* Button */}
-       <button className="hidden md:block ml-10 px-6 py-2 rounded-lg bg-gradient-to-r from-forest/80 to-mint/80 text-navy font-poppins font-semibold shadow-sm transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:shadow-[0_0_10px_#b7e2c5]">
+<button
+  className="hidden md:block ml-10 px-6 py-2 rounded-lg
+  bg-gradient-to-r from-forest/80 to-mint/80
+  text-navy font-poppins font-semibold shadow-sm
+  transition-all duration-500 transform
+  hover:scale-105
+  hover:bg-gradient-to-l from-forest/80 to-mint/80 
+  hover:text-navy "
+>
   Scan Object
 </button>
+
+
 
       </nav>
     </header>
