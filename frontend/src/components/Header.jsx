@@ -39,9 +39,12 @@ const Header = () => {
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             Map
           </li>
+          <a href="../pages/Aboutus.jsx">
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             About Us
           </li>
+          </a>
+          
         </ul>
 
         {/* Mobile menu button */}
