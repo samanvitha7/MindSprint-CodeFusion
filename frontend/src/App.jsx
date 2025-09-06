@@ -5,13 +5,17 @@ import HomePage from "./pages/HomePage";
 
 import KnowMore from "./pages/KnowMore";
 import About from "./pages/About";
+import MapPage from "./pages/MapPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<About />} />
+      <Route path="/map" element={<MapPage />} />
+
       <Route path="/knowmore" element={<KnowMore />} />
+
     </Routes>
   );
 }
