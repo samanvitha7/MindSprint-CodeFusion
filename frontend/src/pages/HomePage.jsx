@@ -4,6 +4,7 @@ import Section1 from "../components/Section1.jsx"
 import Section2 from "../components/Section2.jsx"
 import Section3 from "../components/Section3.jsx"
 import Section4 from "../components/Section4.jsx"
+import Footer from "../components/Footer.jsx";
 
 const HomePage = () => {
   return (
@@ -12,10 +13,15 @@ const HomePage = () => {
       <Header />   
 
       
+      <div>
       <Section1/>
       <Section2/>
       <Section3/>
       <Section4/>
+      </div>
+
+    
+      <Footer/>
    
     </div>
   );
