@@ -3,16 +3,23 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// CSS styles for English map
+// CSS styles for English map with full coverage
 const mapStyles = `
   .english-map {
     font-family: 'Arial', 'Helvetica', sans-serif;
+    width: 100% !important;
+    height: 100% !important;
   }
   .english-map .leaflet-control-attribution {
     font-size: 10px;
   }
   .leaflet-popup-content {
     font-family: 'Arial', 'Helvetica', sans-serif;
+  }
+  .leaflet-container {
+    background-color: #f0f8ff;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -80,34 +87,80 @@ const MapBounds = () => {
       map.getContainer().setAttribute('lang', 'en');
     }
 
-    // Define world bounds that show all 7 continents
+    // Calculate minimum zoom level to fill viewport without showing background
+    const calculateMinZoom = () => {
+      const container = map.getContainer();
+      const containerWidth = container.offsetWidth;
+      const containerHeight = container.offsetHeight;
+      
+      // World dimensions at zoom level 0: 256x256 pixels
+      // Calculate zoom needed to fill width and height
+      const zoomForWidth = Math.log2(containerWidth / 256);
+      const zoomForHeight = Math.log2(containerHeight / 256);
+      
+      // Use the larger zoom to ensure both dimensions are filled
+      const calculatedMinZoom = Math.max(zoomForWidth, zoomForHeight);
+      
+      // Round up and add small buffer to ensure no background is visible
+      return Math.max(1.5, Math.ceil(calculatedMinZoom * 10) / 10 + 0.2);
+    };
+
+    // Define tighter world bounds that focus on inhabited areas
     const worldBounds = L.latLngBounds(
-      [-60, -170], // Southwest coordinates (southern tip of South America/Antarctica region)
-      [75, 170]    // Northeast coordinates (northern tip of North America/Europe/Asia)
+      [-85, -180], // Southwest coordinates (full world coverage)
+      [85, 180]    // Northeast coordinates (full world coverage)
     );
+
+    // Calculate and set minimum zoom
+    const minZoom = calculateMinZoom();
+    console.log(`🗺️ Calculated minimum zoom: ${minZoom}`);
+    
+    // Set zoom constraints with calculated minimum
+    map.setMinZoom(minZoom);  // Dynamic minimum zoom to fill viewport
+    map.setMaxZoom(18);       // Maximum zoom level (street level)
 
     // Set the maximum bounds to prevent panning outside the world
     map.setMaxBounds(worldBounds);
     
-    // Set zoom constraints
-    map.setMinZoom(1);  // Minimum zoom level (shows world view)
-    map.setMaxZoom(18); // Maximum zoom level (street level)
+    // Fit the map to fill the viewport without showing background
+    const initialBounds = L.latLngBounds(
+      [-60, -170], // Southwest - covers all continents
+      [75, 170]    // Northeast - covers all continents
+    );
+    
+    // Fit bounds with no padding to maximize map coverage
+    map.fitBounds(initialBounds, { 
+      padding: [0, 0],
+      maxZoom: Math.max(minZoom + 0.5, 3) // Don't zoom in too much initially
+    });
 
-    // Fit the map to show all continents on initial load
-    map.fitBounds(worldBounds, { padding: [20, 20] });
-
-    // Add event listener to prevent zooming out too far
+    // Enhanced zoom control to prevent background visibility
     const handleZoomEnd = () => {
-      if (map.getZoom() < 1) {
-        map.setZoom(1);
+      const currentZoom = map.getZoom();
+      if (currentZoom < minZoom) {
+        console.log(`⚠️ Zoom too low (${currentZoom}), adjusting to minimum (${minZoom})`);
+        map.setZoom(minZoom);
       }
     };
 
+    // Handle map resize to recalculate minimum zoom
+    const handleResize = () => {
+      const newMinZoom = calculateMinZoom();
+      console.log(`🔄 Map resized, new minimum zoom: ${newMinZoom}`);
+      map.setMinZoom(newMinZoom);
+      if (map.getZoom() < newMinZoom) {
+        map.setZoom(newMinZoom);
+      }
+    };
+
+    // Add event listeners
     map.on('zoomend', handleZoomEnd);
+    map.on('resize', handleResize);
     
     // Cleanup
     return () => {
       map.off('zoomend', handleZoomEnd);
+      map.off('resize', handleResize);
     };
   }, [map]);
 
@@ -356,11 +409,10 @@ const Map = () => {
       </div>
 
       {/* Map Container */}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative z-0">
         <MapContainer
           center={[20, 0]}
-          zoom={2}
-          minZoom={1}
+          zoom={2.5}
           maxZoom={18}
           style={{ height: "100%", width: "100%" }}
           zoomControl={true}
@@ -368,6 +420,8 @@ const Map = () => {
           maxBoundsViscosity={1.0}
           attributionControl={true}
           className="english-map"
+          zoomSnap={0.1}
+          zoomDelta={0.2}
         >
           <MapBounds />
           <TileLayer
@@ -468,7 +522,7 @@ const Map = () => {
           <div className="mb-4 p-2 bg-blue-50 rounded text-xs">
             <p className="text-blue-800 font-medium mb-1">📍 Coverage: All 7 Continents</p>
             <p className="text-blue-600">50 Facilities across the globe</p>
-            <p className="text-blue-600">Zoom limited to world view for optimal continent visibility</p>
+            <p className="text-blue-600">Smart zoom limits - no background visible</p>
             <p className="text-blue-800 italic mt-1 text-[10px]">All map labels display in English</p>
           </div>
 
