@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import { modelService, uploadUtils, handleApiError } from '../services/api.js';
@@ -10,8 +11,12 @@ const WasteScanPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const [cameraStream, setCameraStream] = useState(null);
+  const [cameraError, setCameraError] = useState(null);
   const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
@@ -39,13 +44,133 @@ const WasteScanPage = () => {
     }
   };
 
+  // Camera functionality
+  const startCamera = async () => {
+    try {
+      setCameraError(null);
+      console.log('📹 Requesting camera access...');
+      
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          facingMode: 'environment' // Use back camera on mobile devices
+        }
+      });
+      
+      setCameraStream(stream);
+      setShowCamera(true);
+      toast.success('📹 Camera started successfully!');
+      
+      // Wait for video element to be ready
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+          console.log('✅ Camera started successfully');
+        }
+      }, 100);
+      
+    } catch (err) {
+      console.error('❌ Camera access error:', err);
+      let errorMessage = 'Camera access denied or not available.';
+      
+      if (err.name === 'NotAllowedError') {
+        errorMessage = 'Camera permission denied. Please allow camera access and try again.';
+      } else if (err.name === 'NotFoundError') {
+        errorMessage = 'No camera found on this device.';
+      } else if (err.name === 'NotSupportedError') {
+        errorMessage = 'Camera not supported in this browser.';
+      }
+      
+      setCameraError(errorMessage);
+      setError(errorMessage);
+      toast.error(errorMessage);
+    }
+  };
+
+  const stopCamera = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+      setCameraStream(null);
+    }
+    setShowCamera(false);
+    setCameraError(null);
+    console.log('📹 Camera stopped');
+  };
+
+  const capturePhoto = () => {
+    if (!videoRef.current || !canvasRef.current) {
+      setError('Camera not ready. Please try again.');
+      return;
+    }
+
+    try {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d');
+
+      // Set canvas dimensions to match video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      // Draw the video frame to canvas
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Convert canvas to blob and create file
+      canvas.toBlob((blob) => {
+        if (blob) {
+          // Create a file from the blob with a descriptive name
+          const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+          const file = new File([blob], `camera_capture_${timestamp}.jpg`, {
+            type: 'image/jpeg'
+          });
+
+          // Clean up previous preview
+          if (previewUrl) {
+            uploadUtils.revokePreviewURL(previewUrl);
+          }
+
+          // Set the captured file
+          setSelectedFile(file);
+          setPreviewUrl(uploadUtils.createPreviewURL(file));
+          setError(null);
+          setResult(null);
+
+          // Stop camera after capture
+          stopCamera();
+          toast.success('📸 Photo captured successfully!');
+          
+          console.log('📸 Photo captured successfully:', file.name);
+        }
+      }, 'image/jpeg', 0.9); // High quality JPEG
+
+    } catch (err) {
+      console.error('❌ Photo capture error:', err);
+      setError('Failed to capture photo. Please try again.');
+    }
+  };
+
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
   const handleCameraClick = () => {
-    cameraInputRef.current?.click();
+    if (showCamera) {
+      stopCamera();
+    } else {
+      startCamera();
+    }
   };
+
+  // Cleanup camera stream on component unmount
+  useEffect(() => {
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [cameraStream]);
 
   const handlePredict = async () => {
     if (!selectedFile) {
@@ -61,6 +186,7 @@ const WasteScanPage = () => {
       
       if (response.success) {
         setResult(response.data);
+        toast.success(`🎯 Classified as ${response.data.category} with ${Math.round(response.data.confidence * 100)}% confidence!`);
       } else {
         throw new Error(response.message || 'Prediction failed');
       }
@@ -83,9 +209,11 @@ const WasteScanPage = () => {
     setError(null);
     setIsLoading(false);
     
+    // Stop camera if running
+    stopCamera();
+    
     // Reset file inputs
     if (fileInputRef.current) fileInputRef.current.value = '';
-    if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
 
   return (
@@ -116,45 +244,94 @@ const WasteScanPage = () => {
               Select an Image
             </h2>
             
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              {/* Upload from device */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleUploadClick}
-                className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-green-300 rounded-xl hover:border-green-500 hover:bg-green-50 transition-all duration-300"
-              >
-                <div className="text-4xl mb-4">📁</div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">Upload from Device</h3>
-                <p className="text-gray-500 text-center">Choose an image from your gallery</p>
-              </motion.button>
+            {!showCamera && (
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                {/* Upload from device */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleUploadClick}
+                  className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-green-300 rounded-xl hover:border-green-500 hover:bg-green-50 transition-all duration-300"
+                >
+                  <div className="text-4xl mb-4">📁</div>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">Upload from Device</h3>
+                  <p className="text-gray-500 text-center">Choose an image from your gallery</p>
+                </motion.button>
 
-              {/* Camera capture */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleCameraClick}
-                className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-blue-300 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300"
-              >
-                <div className="text-4xl mb-4">📷</div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">Take Photo</h3>
-                <p className="text-gray-500 text-center">Capture using your camera</p>
-              </motion.button>
-            </div>
+                {/* Camera capture */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleCameraClick}
+                  className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-blue-300 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300"
+                >
+                  <div className="text-4xl mb-4">📷</div>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">Take Photo</h3>
+                  <p className="text-gray-500 text-center">Use your device camera</p>
+                </motion.button>
+              </div>
+            )}
 
-            {/* Hidden file inputs */}
+            {/* Camera Interface */}
+            <AnimatePresence>
+              {showCamera && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mb-6"
+                >
+                  <div className="bg-black rounded-xl p-4 relative">
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-64 md:h-96 object-cover rounded-lg"
+                    />
+                    
+                    {/* Camera Controls */}
+                    <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-4">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={capturePhoto}
+                        className="bg-white text-gray-800 rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200"
+                      >
+                        <div className="w-8 h-8 bg-red-500 rounded-full"></div>
+                      </motion.button>
+                      
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={stopCamera}
+                        className="bg-gray-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-gray-700 transition-all duration-200"
+                      >
+                        ✕
+                      </motion.button>
+                    </div>
+                    
+                    {/* Camera Instructions */}
+                    <div className="absolute top-4 left-4 right-4">
+                      <div className="bg-black bg-opacity-50 text-white rounded-lg p-3 text-sm">
+                        <p className="text-center">
+                          📸 Position the waste item in the center and tap the red button to capture
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Hidden canvas for photo capture */}
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+            
+            {/* Hidden file input */}
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              onChange={handleFileSelect}
-              className="hidden"
-            />
-            <input
-              ref={cameraInputRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
               onChange={handleFileSelect}
               className="hidden"
             />
