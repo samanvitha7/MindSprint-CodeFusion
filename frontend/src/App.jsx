@@ -15,9 +15,11 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/scan" element={<WasteScanPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/knowmore" element={<KnowMore />} />
+        
       </Routes>
 
       {/* ✅ Toast container available everywhere */}
