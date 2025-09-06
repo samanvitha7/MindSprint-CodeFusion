@@ -1,10 +1,6 @@
-// Section1.jsx
+
 import React, { useEffect, useRef, useState } from "react";
 import "./Section1.css";
-
-const handleAnimationComplete = () => {
-  console.log("✅ All letters have animated!");
-};
 
 const Section1 = () => {
   const sectionRef = useRef(null);
@@ -44,7 +40,12 @@ const Section1 = () => {
       ) : (
         <div className="hero-bg placeholder" />
       )}
-      
+
+      {/* Text overlay */}
+      <div className="text">
+        <h1 className="text-title winky-font text-soft">The Problem</h1>
+
+      </div>
     </div>
   );
 };

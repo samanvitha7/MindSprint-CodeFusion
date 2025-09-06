@@ -1,12 +1,11 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom"; // ✅ No BrowserRouter here
+import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import KnowMore from "./pages/KnowMore";
 import About from "./pages/About";
 import MapPage from "./pages/MapPage";
 import WasteScanPage from "./pages/WasteScanPage";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,18 +21,19 @@ function App() {
         
       </Routes>
 
-      {/* ✅ Toast container available everywhere */}
+      {/* Toast notifications for user feedback */}
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={4000}
         hideProgressBar={false}
-        newestOnTop={false}
+        newestOnTop={true}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="colored"
+        toastClassName="toast-custom"
       />
     </>
   );

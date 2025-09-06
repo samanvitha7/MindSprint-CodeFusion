@@ -44,7 +44,10 @@ const Section2 = () => {
       ) : (
         <div className="hero-bg placeholder" />
       )}
-      
+       {/* Text overlay */}
+      <div className="text">
+        <h1 className="text-title winky-font">The Effort</h1>
+      </div>
     </div>
   );
 };
