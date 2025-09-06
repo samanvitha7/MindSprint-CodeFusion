@@ -1,6 +1,7 @@
 // src/pages/KnowMore.jsx
 import React, { useState } from "react";
 import Header from "../components/Header";  
+import Footer from "../components/Footer";  
 import { WASTE_TYPES } from "../data/wasteData";
 import WasteWheel from "../components/WasteWheel";
 import WasteModal from "../components/WasteModal";
@@ -80,6 +81,7 @@ const KnowMore = () => {
           slideFrom="right"
         />
       )}
+      <Footer/>
     </main>
   );
 };
