@@ -1,5 +1,6 @@
 // src/pages/KnowMore.jsx
 import React, { useState } from "react";
+import Header from "../components/Header";  
 import { WASTE_TYPES } from "../data/wasteData";
 import WasteWheel from "../components/WasteWheel";
 import WasteModal from "../components/WasteModal";
@@ -10,10 +11,12 @@ const KnowMore = () => {
 
   return (
     <main className="min-h-screen bg-green-50">
+      {/* Navbar */}
+      <Header />   
       <section className="max-w-6xl mx-auto px-6 py-10">
         <header className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-green-700">
-            Waste Knowledge Wheel ♻️
+          <h1 className="text-4xl md:text-5xl font-extrabold text-forest">
+            Waste Knowledge Wheel 
           </h1>
           <p className="mt-2 text-gray-700">
             Hover the wheel to preview and click a label to open a detailed panel.
