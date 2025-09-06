@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";  // ✅ Import Header
+import Header from "../components/Header";  
 import AboutUsComp from "../components/AboutUsComp";
 
 const About = () => {
