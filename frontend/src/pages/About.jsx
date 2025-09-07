@@ -6,9 +6,10 @@ import ContactForm from "../components/ContactUs"; // ✅ correct import
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-soft">
-      {/* Navbar */}
-      <Header />   
+    <>
+      <div className="min-h-screen bg-soft">
+        {/* Navbar */}
+        <Header />
 
       {/* About content */}
       <AboutUsComp />
@@ -19,6 +20,7 @@ const About = () => {
       {/* Footer */}
       <Footer />
     </div>
+    </>
   );
 };
 
