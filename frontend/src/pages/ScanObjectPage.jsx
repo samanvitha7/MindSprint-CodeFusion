@@ -92,27 +92,29 @@ export default function ScanObjectPage() {
                 Upload Waste Image
               </h2>
               
-              {/* Upload Button */}
-              <div className="mb-6">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleUploadClick}
-                  className="w-full flex flex-col items-center justify-center p-12 border-2 border-dashed border-mint/50 rounded-xl hover:border-forest hover:bg-soft/20 transition-all duration-300"
-                >
-                  <div className="text-6xl mb-4 text-forest">📁</div>
-                  <h3 className="text-xl font-semibold text-forest mb-2">Choose Image</h3>
-                  <p className="text-mint text-center">Click to select a waste image from your device</p>
-                </motion.button>
-                
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </div>
+              {/* Upload Button - Only show when no image is selected */}
+              {!previewUrl && (
+                <div className="mb-6">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleUploadClick}
+                    className="w-full flex flex-col items-center justify-center p-12 border-2 border-dashed border-mint/50 rounded-xl hover:border-forest hover:bg-soft/20 transition-all duration-300"
+                  >
+                    <div className="text-6xl mb-4 text-forest">📁</div>
+                    <h3 className="text-xl font-semibold text-forest mb-2">Choose Image</h3>
+                    <p className="text-mint text-center">Click to select a waste image from your device</p>
+                  </motion.button>
+                  
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+              )}
 
               {/* Image Preview */}
               <AnimatePresence>
