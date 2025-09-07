@@ -40,7 +40,7 @@ const KnowMore = () => {
         <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-14">
           {/* Left: Wheel */}
           <div className="w-full lg:w-[42%] flex justify-center">
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-6">
+            <div className="rounded-2xl p-6 bg-transparent">
               <WasteWheel
                 items={WASTE_TYPES}
                 onSelect={handleWheelSelect}
@@ -50,8 +50,8 @@ const KnowMore = () => {
           </div>
 
           {/* Right: Guide */}
-          <div className="w-full lg:w-[55%]">
-            <div className="bg-white/95 rounded-2xl shadow-lg p-8">
+          <div className="w-full lg:w-[55%] flex lg:self-center mt-8 lg:mt-0">
+            <div className="bg-white/95 rounded-2xl shadow-lg px-8 py-14 w-full">
               <h2 className="text-2xl font-bold text-forest mb-4">
                 Waste Management Guide
               </h2>
