@@ -113,7 +113,7 @@ const MapBounds = () => {
 
     // Calculate and set minimum zoom
     const minZoom = calculateMinZoom();
-    console.log(`🗺️ Calculated minimum zoom: ${minZoom}`);
+    console.log(`Calculated minimum zoom: ${minZoom}`);
     
     // Set zoom constraints with calculated minimum
     map.setMinZoom(minZoom);  // Dynamic minimum zoom to fill viewport
@@ -138,7 +138,7 @@ const MapBounds = () => {
     const handleZoomEnd = () => {
       const currentZoom = map.getZoom();
       if (currentZoom < minZoom) {
-        console.log(`⚠️ Zoom too low (${currentZoom}), adjusting to minimum (${minZoom})`);
+        console.log(`Zoom too low (${currentZoom}), adjusting to minimum (${minZoom})`);
         map.setZoom(minZoom);
       }
     };
@@ -146,7 +146,7 @@ const MapBounds = () => {
     // Handle map resize to recalculate minimum zoom
     const handleResize = () => {
       const newMinZoom = calculateMinZoom();
-      console.log(`🔄 Map resized, new minimum zoom: ${newMinZoom}`);
+      console.log(`Map resized, new minimum zoom: ${newMinZoom}`);
       map.setMinZoom(newMinZoom);
       if (map.getZoom() < newMinZoom) {
         map.setZoom(newMinZoom);
@@ -282,7 +282,7 @@ const Map = () => {
             Real-time data with {facilities.length} facilities worldwide
           </p>
           <div className="bg-mint/30 rounded-lg p-3 text-xs">
-            <p className="text-navy font-semibold mb-1">🗺️ Map View: All 7 Continents</p>
+            <p className="text-navy font-semibold mb-1"> Map View: All 7 Continents</p>
             <p className="text-forest">Zoom is optimized to show global waste facilities across North America, South America, Europe, Africa, Asia, Oceania, and Antarctica regions.</p>
           </div>
         </div>
@@ -342,7 +342,7 @@ const Map = () => {
         {/* Map Style Selector */}
         <div className="bg-mint/20 p-4 rounded-lg mb-4">
           <h3 className="text-lg font-semibold text-navy mb-3">
-            🌎 Map Style (English)
+            Map Style (English)
           </h3>
           <div className="space-y-2">
             {Object.entries(mapTileConfigs).map(([key, config]) => (
@@ -364,7 +364,7 @@ const Map = () => {
             ))}
           </div>
           <p className="text-xs text-navy mt-2">
-            ℹ️ All map styles display labels in English
+             All map styles display labels in English
           </p>
         </div>
 
@@ -442,7 +442,7 @@ const Map = () => {
               isNaN(facility.lat) ||
               isNaN(facility.lng)
             ) {
-              console.error("⚠️ Skipping invalid facility:", facility);
+              console.error(" Skipping invalid facility:", facility);
               return null;
             }
             const icon = icons[facility.type] || icons.recycling;
@@ -519,7 +519,6 @@ const Map = () => {
           className="absolute bottom-6 right-6 bg-navy hover:bg-forest text-white p-3 rounded-lg shadow-lg z-[1000] transition-colors duration-200 flex items-center justify-center"
           title={showLegend ? "Hide Legend" : "Show Legend"}
         >
-          <span className="text-lg">🌍</span>
           <span className="ml-2 text-sm font-medium">
             {showLegend ? "Hide" : "Legend"}
           </span>
@@ -543,7 +542,7 @@ const Map = () => {
             
             Map Info
             <div className="mb-4 p-3 bg-mint/30 rounded-lg text-xs">
-              <p className="text-navy font-semibold mb-1">📍 Coverage: All 7 Continents</p>
+              <p className="text-navy font-semibold mb-1"> Coverage: All 7 Continents</p>
               <p className="text-forest mb-1">50 Facilities across the globe</p>
               <p className="text-forest mb-1">Smart zoom limits - no background visible</p>
               <p className="text-navy font-medium mt-2 text-[10px]">All map labels display in English</p>
@@ -576,7 +575,7 @@ const Map = () => {
                 <span>Africa</span>
                 <span>S. America</span>
                 <span>Oceania</span>
-                <span className="col-span-2 text-center text-navy">❄️ Antarctica</span>
+                <span className="col-span-2 text-center text-navy"> Antarctica</span>
               </div>
             </div>
           </div>
