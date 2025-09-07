@@ -52,3 +52,20 @@ button:hover,
 .nav-btn:hover {
   background-color: #1f493c;
 }
+
+.category-card {
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  z-index: -1;
+  background: linear-gradient(45deg, #2a6250, #1f493c);
+  border-radius: 1rem;
+}
