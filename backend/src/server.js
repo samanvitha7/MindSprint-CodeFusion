@@ -2,9 +2,14 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+
+// Import your existing routes
 import rulesRoutes from "./routes/rulesRoutes.js";
 import facilityRoutes from "./routes/facilityRoutes.js";
 import modelRoutes from "./routes/modelRoutes.js";
+
+// ✅ New: Import contact route
+import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
 
@@ -34,15 +39,22 @@ mongoose.connect(mongoUri, {
 
 // Routes
 app.get("/", (req, res) => res.send("Backend is running"));
+
+// Existing routes
 app.use("/api/rules", rulesRoutes);
 app.use("/api/facilities", facilityRoutes);
 app.use("/api/model", modelRoutes);
 
+// ✅ New Contact Form route
+
+
 // Serve uploaded files statically
 app.use("/uploads", express.static("uploads"));
+app.use("/api/contact", contactRoutes);
+
 
 // Server start
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });

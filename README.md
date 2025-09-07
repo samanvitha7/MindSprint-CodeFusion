@@ -65,7 +65,7 @@ cd smart-waste-classifier
 ### 🔗 URLs  
 
 - Frontend → [http://localhost:5173](http://localhost:5173)  
-- Backend → [http://localhost:5000](http://localhost:5050)  
+- Backend → [http://localhost:5050](http://localhost:5050)  
 
 ---
 

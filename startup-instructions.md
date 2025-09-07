@@ -22,7 +22,7 @@ npm install
 # Start the backend server
 npm run dev
 ```
-Backend will be available at: **http://localhost:5000**
+Backend will be available at: **http://localhost:5050**
 
 ### 2. Frontend Setup
 ```bash
@@ -41,7 +41,7 @@ Frontend will be available at: **http://localhost:3000** (or the port shown in t
 Create a `.env` file in the backend directory with your MongoDB connection:
 ```
 MONGO_URI=your_mongodb_connection_string
-PORT=5000
+PORT=5050
 ```
 
 ## 🔧 Key Features Now Working:

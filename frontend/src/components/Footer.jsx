@@ -51,7 +51,23 @@ const Footer = () => {
                   to="/"
                   className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
                 >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/knowmore"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
                   Know More
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/scanobject"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
+                  Scan Object
                 </Link>
               </li>
               <li>
@@ -59,7 +75,15 @@ const Footer = () => {
                   to="/map"
                   className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
                 >
-                  Map
+                  Facility Map
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/ecohacks"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
+                  Eco Hacks
                 </Link>
               </li>
               <li>
@@ -80,24 +104,36 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 font-poppins">
               <li>
-                <span className="text-soft/80 hover:text-mint transition-colors duration-300 cursor-pointer hover:translate-x-1 transform inline-block">
+                <Link
+                  to="/scanobject"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
                   AI Waste Classification
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="text-soft/80 hover:text-mint transition-colors duration-300 cursor-pointer hover:translate-x-1 transform inline-block">
+                <Link
+                  to="/knowmore"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
                   Environmental Impact
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="text-soft/80 hover:text-mint transition-colors duration-300 cursor-pointer hover:translate-x-1 transform inline-block">
+                <Link
+                  to="/map"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
                   Recycling Centers
-                </span>
+                </Link>
               </li>
               <li>
-                <span className="text-soft/80 hover:text-mint transition-colors duration-300 cursor-pointer hover:translate-x-1 transform inline-block">
+                <Link
+                  to="/ecohacks"
+                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                >
                   Sustainability Tips
-                </span>
+                </Link>
               </li>
             </ul>
           </div>
@@ -138,26 +174,7 @@ const Footer = () => {
             <div className="text-soft/80 font-poppins text-sm">
               © 2025 Green Vision. All rights reserved.
             </div>
-            <div className="flex space-x-6 text-sm font-poppins">
-              <Link
-                to="/privacy"
-                className="text-soft/80 hover:text-mint transition-colors duration-300"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                to="/terms"
-                className="text-soft/80 hover:text-mint transition-colors duration-300"
-              >
-                Terms of Service
-              </Link>
-              <Link
-                to="/cookies"
-                className="text-soft/80 hover:text-mint transition-colors duration-300"
-              >
-                Cookie Policy
-              </Link>
-            </div>
+            
           </div>
         </div>
       </div>

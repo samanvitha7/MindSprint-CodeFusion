@@ -9,6 +9,7 @@ import Footer from "../components/Footer.jsx";
 
 const HomePage = () => {
   return (
+    <>
     <div className="min-h-screen bg-soft">
       {/* Navbar */}
       <Header />   
@@ -26,6 +27,8 @@ const HomePage = () => {
       <Footer/>
    
     </div>
+    </>
+  
   );
 };
 
