@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, Tooltip, Sector } from "recharts";
 const WasteWheel = ({ items, onSelect, sizeRem = 26 }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const COLORS = ["#2ecc71", "#27ae60"];
+  const COLORS = ["#2a6250", "#97cead"];
 
   const chartData = items.map((item, index) => ({
     name: item.category,
@@ -32,7 +32,7 @@ const WasteWheel = ({ items, onSelect, sizeRem = 26 }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-transparent">
       <PieChart width={sizeRem * 16} height={sizeRem * 16}>
         <Pie
           data={chartData}
