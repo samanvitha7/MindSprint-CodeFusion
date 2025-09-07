@@ -21,13 +21,13 @@ const Header = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl md:text-3xl font-poppins font-bold text-transparent bg-clip-text bg-gradient-to-r from-navy to-forest tracking-wide transform transition-transform duration-300 hover:scale-110"
+          className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-navy to-forest tracking-wide transform transition-transform duration-300 hover:scale-110"
         >
           Green Vision
         </Link>
 
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex space-x-8 lg:space-x-16 font-poppins text-[#214b45] font-extrabold tracking-wide">
+        <ul className="hidden md:flex space-x-8 lg:space-x-16 text-[#214b45] font-extrabold tracking-wide">
           <li className="cursor-pointer transition-colors duration-300 hover:text-forest">
             <Link to="/knowmore">Know More</Link>
           </li>
@@ -86,7 +86,7 @@ const Header = () => {
           to="/scanobject"
           className="hidden md:block ml-10 px-6 py-2 rounded-lg
             bg-gradient-to-r from-forest/80 to-mint/80
-            text-navy font-poppins font-semibold shadow-sm
+            text-navy font-semibold shadow-sm
             transition-all duration-500 transform
             hover:scale-105
             hover:bg-gradient-to-l hover:from-forest/80 hover:to-mint/80
@@ -98,7 +98,7 @@ const Header = () => {
 
       {/* Mobile Navigation Dropdown */}
       {menuOpen && (
-        <div className="md:hidden bg-soft shadow-lg px-6 py-4 space-y-4 font-poppins text-[#214b45] font-bold transition-all duration-500 animate-slideDown">
+        <div className="md:hidden bg-soft shadow-lg px-6 py-4 space-y-4 text-[#214b45] font-bold transition-all duration-500 animate-slideDown">
           <Link to="/knowmore" onClick={() => setMenuOpen(false)} className="block">Know More</Link>
           <Link to="/map" onClick={() => setMenuOpen(false)} className="block">Map</Link>
           <Link to="/ecohacks" onClick={() => setMenuOpen(false)} className="block">EcoHacks</Link>

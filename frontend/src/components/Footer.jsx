@@ -34,7 +34,7 @@ const Footer = () => {
             <div className="text-3xl font-bold text-transparent bg-clip-text bg-mint tracking-wide mb-4">
               Green Vision
             </div>
-            <p className="text-soft/80 font-poppins leading-relaxed mb-6 max-w-md">
+            <p className="text-soft/80 leading-relaxed mb-6 max-w-md">
               Empowering sustainable choices through AI-powered waste
               classification and environmental awareness.
             </p>
@@ -42,10 +42,10 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold text-mint mb-4 font-poppins tracking-wide">
+            <h3 className="text-lg font-bold text-mint mb-4 tracking-wide">
               Quick Links
             </h3>
-            <ul className="space-y-3 font-poppins">
+            <ul className="space-y-3">
               <li>
                 <Link
                   to="/"
@@ -75,10 +75,10 @@ const Footer = () => {
 
           {/* Features */}
           <div>
-            <h3 className="text-lg font-bold text-mint mb-4 font-poppins tracking-wide">
+            <h3 className="text-lg font-bold text-mint mb-4 tracking-wide">
               Features
             </h3>
-            <ul className="space-y-3 font-poppins">
+            <ul className="space-y-3">
               <li>
                 <Link
                   to="/scanobject"
@@ -118,11 +118,11 @@ const Footer = () => {
         {/* Newsletter Section */}
         <div className="mt-12 pt-8 border-t border-soft/20">
           <div className="max-w-md mx-auto text-center">
-            <h3 className="text-xl font-bold text-mint mb-4 font-poppins tracking-wide">
-              Share Your Thoughts
+            <h3 className="text-xl font-bold text-mint mb-4 tracking-wide">
+              Any Suggestions?
             </h3>
-            <p className="text-soft/80 mb-6 font-poppins">
-              We'd love to hear from you!
+            <p className="text-soft/80 mb-6">
+              Give us feedback here!!
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
@@ -130,11 +130,11 @@ const Footer = () => {
                 placeholder="Enter your email"
                 value={footerEmail}
                 onChange={(e) => setFooterEmail(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-lg bg-soft/10 border border-soft/20 text-soft placeholder-soft/60 font-poppins focus:outline-none focus:ring-2 focus:ring-mint/50 transition-all duration-300"
+                className="flex-1 px-4 py-3 rounded-lg bg-soft/10 border border-soft/20 text-soft placeholder-soft/60 focus:outline-none focus:ring-2 focus:ring-mint/50 transition-all duration-300"
               />
               <button
                 onClick={handleFooterSubmit}
-                className="px-6 py-3 rounded-lg bg-mint text-navy font-poppins font-semibold transition-all duration-300 transform hover:scale-110"
+                className="px-6 py-3 rounded-lg bg-mint text-navy font-semibold transition-all duration-300 transform hover:scale-110"
               >
                 Submit
               </button>
@@ -147,10 +147,10 @@ const Footer = () => {
       <div className="border-t border-soft/20">
         <div className="container mx-auto px-4 md:px-10 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-soft/80 font-poppins text-sm">
+            <div className="text-soft/80 text-sm">
               © 2025 Green Vision. All rights reserved.
             </div>
-            
+            <div className="flex space-x-6 text-sm">
           </div>
         </div>
       </div>

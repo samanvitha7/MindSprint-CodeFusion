@@ -162,7 +162,7 @@ export default function Ecohacks() {
     <main className="min-h-screen bg-gradient-to-br from-soft/40 via-soft/20 to-white">
       <Header />
       
-      <section className="max-w-7xl mx-auto px-4 py-16 font-poppins">
+      <section className="max-w-7xl mx-auto px-4 py-16">
         {/* Page Header */}
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#1d3557] via-[#264653] to-[#2a9d8f] bg-clip-text text-transparent drop-shadow">
