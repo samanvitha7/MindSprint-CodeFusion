@@ -17,12 +17,18 @@ export default function ScanObjectPage() {
     formData.append("file", file);
 
     try {
-      // Change the URL from "/api/predict" to "/api/model"
-      const res = await axios.post("/api/model", formData, {
+      // Change the URL from "/api/model" to "/api/predict"
+      const res = await axios.post("/api/predict", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      setResult(res.data);
+      // Update this to match the response from your Python backend
+      setResult({
+        category: res.data.predicted_class,
+        confidence: res.data.confidence,
+        instruction: "Please handle according to local guidelines.",
+        fact: "Recycling helps conserve natural resources."
+      });
       setCount((c) => c + 1);
     } catch (err) {
       console.error(err);
