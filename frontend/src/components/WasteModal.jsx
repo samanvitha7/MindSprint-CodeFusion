@@ -29,7 +29,7 @@ const WasteModal = ({ item, onClose, slideFrom = 'right' }) => {
       ></div>
       
       {/* Modal */}
-      <div className={`fixed top-0 ${slideFrom === 'right' ? 'right-0' : 'left-0'} h-full w-full max-w-md bg-white shadow-xl z-50 transform transition-transform duration-300 ${getSlideClass()}`}>
+      <div className={`fixed top-0 ${slideFrom === 'right' ? 'right-0' : 'left-0'} h-full w-full max-w-4xl bg-white shadow-xl z-50 transform transition-transform duration-300 ${getSlideClass()}`}>
         <div className="h-full overflow-y-auto">
           {/* Header */}
           <div className="sticky top-0 bg-forest text-white p-4 flex justify-between items-center">

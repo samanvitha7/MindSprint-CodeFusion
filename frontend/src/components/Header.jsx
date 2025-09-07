@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -67,8 +69,12 @@ const Header = () => {
         </div>
 
         {/* Button */}
-        <Link 
-          to="/scan"
+                {/* Routed Button */}
+        <Link
+          to="/scanobject"
+          className="ml-10 px-6 py-2 rounded-lg bg-mint text-navy font-poppins font-semibold shadow-md transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-forest hover:text-soft hover:shadow-[0_0_15px_rgba(151,206,173,0.8)]"
+        >
+        <button
           className="hidden md:block ml-10 px-6 py-2 rounded-lg
           bg-gradient-to-r from-forest/80 to-mint/80
           text-navy font-poppins font-semibold shadow-sm
@@ -77,12 +83,11 @@ const Header = () => {
           hover:bg-gradient-to-l from-forest/80 to-mint/80 hover:text-navy
           text-center
           "
-        >
-          Scan Object
-        </Link>
-      </nav>
-    </header>
-  );
+        />
+      </Link>
+    </nav>
+  </header>
+);
 };
 
 export default Header;
