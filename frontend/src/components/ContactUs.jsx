@@ -5,7 +5,7 @@ import axios from "axios";
 function ContactForm() {
   const [formData, setFormData] = useState({
     userEmail: "",
-    ourEmail: "ourkalasangam2025@gmail.com", // ✅ Pre-filled email
+    ourEmail: "greenvision0709@gmail.com", // ✅ Pre-filled email
     description: "",
   });
 
@@ -39,12 +39,12 @@ function ContactForm() {
 
     try {
       // Backend will handle sending the mail
-      const response = await axios.post("/api/simple-contact", formData);
+      const response = await axios.post("/api/contact", formData);
       if (response.data.success) {
         alert("Submitted successfully!");
         setFormData({
           userEmail: "",
-          ourEmail: "ourkalasangam2025@gmail.com",
+          ourEmail: "greenvision0709@gmail.com",
           description: "",
         });
       }
