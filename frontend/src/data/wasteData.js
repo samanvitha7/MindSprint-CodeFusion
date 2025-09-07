@@ -89,7 +89,7 @@ export const WASTE_TYPES = [
     category: "Electronics",
     color: "#d8b4fe", // purple-300
     image: "",
-    instructions:[ "https://eu-images.contentstack.com/v3/assets/blt8eb3cdfc1fce5194/blt2e8843dc28040907/66508e36ffe6c82c89c55037/e-waste.jpg?disable=upscale&width=1200&height=630&fit=crop"
+    instructions:[ "https://eu-images.contentstack.com/v3/assets/blt8eb3cdfc1fce5194/blt2e8843dc28040907/66508e36ffe6c82c89c55037/e-waste.jpg?disable=upscale&width=1200&height=630&fit=crop",
       "Never put electronics in regular recycling bins",
       "Find certified e-waste recyclers in your area",
       "Remove batteries before recycling devices",
