@@ -3,68 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poppins Font Test</title>
+    <title>Playfair Display Font Test</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Playfair Display', serif;
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 18px; /* Bigger base font size */
+            font-weight: 600; /* Thicker default weight */
+            background-color: #e5f3dd; /* Soft green background */
+            min-height: 100vh; /* Full viewport height */
         }
         
         .test-section {
             margin-bottom: 30px;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            background-color: white;
+            border: 1px solid #97cead;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(42, 98, 80, 0.1);
         }
         
-        h1 { font-weight: 700; }
-        h2 { font-weight: 600; }
-        h3 { font-weight: 500; }
-        .light { font-weight: 300; }
-        .regular { font-weight: 400; }
-        .medium { font-weight: 500; }
-        .semibold { font-weight: 600; }
-        .bold { font-weight: 700; }
-        .extrabold { font-weight: 800; }
+        h1 { 
+            font-weight: 800; 
+            font-size: 2.5rem;
+        }
+        h2 { 
+            font-weight: 700; 
+            font-size: 2rem;
+        }
+        h3 { 
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        /* Updated weight classes to show new thicker defaults */
+        .light { font-weight: 400; }
+        .regular { font-weight: 600; } /* Now thicker */
+        .medium { font-weight: 600; }
+        .semibold { font-weight: 700; } /* Now bolder */
+        .bold { font-weight: 800; } /* Now extra bold */
+        .extrabold { font-weight: 900; }
         .black { font-weight: 900; }
+        
+        .size-demo {
+            margin: 10px 0;
+            padding: 15px;
+            background: #f0f9f0;
+            border: 1px solid #97cead;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(42, 98, 80, 0.1);
+        }
     </style>
 </head>
 <body>
-    <h1>🎉 Poppins Font Global Test</h1>
+    <h1>🎉 Playfair Display Font - Bigger & Thicker Test</h1>
+    
+    <div class="size-demo">
+        <p><strong>✨ New Font Improvements:</strong></p>
+        <ul>
+            <li>📏 <strong>Bigger:</strong> Base font size increased from 16px to 18px</li>
+            <li>💪 <strong>Thicker:</strong> Default weight increased from 400 to 600</li>
+            <li>🎯 <strong>Better readability:</strong> Enhanced line-height and spacing</li>
+        </ul>
+    </div>
     
     <div class="test-section">
-        <h2>Font Weight Tests</h2>
-        <p class="light">Light (300): The quick brown fox jumps over the lazy dog.</p>
-        <p class="regular">Regular (400): The quick brown fox jumps over the lazy dog.</p>
-        <p class="medium">Medium (500): The quick brown fox jumps over the lazy dog.</p>
-        <p class="semibold">Semibold (600): The quick brown fox jumps over the lazy dog.</p>
-        <p class="bold">Bold (700): The quick brown fox jumps over the lazy dog.</p>
-        <p class="extrabold">Extra Bold (800): The quick brown fox jumps over the lazy dog.</p>
+        <h2>New Thicker Font Weight Tests</h2>
+        <p class="light">Light (400): The quick brown fox jumps over the lazy dog.</p>
+        <p class="regular">Regular/Default (600) - NOW THICKER: The quick brown fox jumps over the lazy dog.</p>
+        <p class="medium">Medium (600): The quick brown fox jumps over the lazy dog.</p>
+        <p class="semibold">Semibold (700) - NOW BOLDER: The quick brown fox jumps over the lazy dog.</p>
+        <p class="bold">Bold (800) - NOW EXTRA BOLD: The quick brown fox jumps over the lazy dog.</p>
+        <p class="extrabold">Extra Bold (900): The quick brown fox jumps over the lazy dog.</p>
         <p class="black">Black (900): The quick brown fox jumps over the lazy dog.</p>
+        <p style="font-style: italic;">Italic (600) - Default is now thicker: The quick brown fox jumps over the lazy dog.</p>
+        <p style="font-style: italic; font-weight: 800;">Bold Italic (800): The quick brown fox jumps over the lazy dog.</p>
     </div>
     
     <div class="test-section">
-        <h2>Green Vision Brand Test</h2>
-        <h1 style="background: linear-gradient(to right, #012437, #2a6250); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Green Vision</h1>
-        <p>This text should automatically use Poppins font without any special classes.</p>
+        <h2>Green Vision Brand Test - Bigger & Thicker</h2>
+        <h1 style="background: linear-gradient(to right, #012437, #2a6250); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 3rem; font-weight: 800;">Green Vision</h1>
+        <p><strong>Now with enhanced typography:</strong> This text automatically uses bigger (18px) and thicker (600 weight) Playfair Display font.</p>
+        <p style="font-style: italic; font-size: 1.1rem;">This elegant serif font now provides even better readability and visual impact for your environmental website.</p>
+        
+        <div class="size-demo">
+            <h3>Size Comparison:</h3>
+            <p style="font-size: 16px; font-weight: 400;">Old style: 16px, weight 400</p>
+            <p style="font-size: 18px; font-weight: 600;">New style: 18px, weight 600 ✨</p>
+        </div>
     </div>
     
     <div class="test-section">
-        <h2>UI Components Test</h2>
-        <button style="background: linear-gradient(to right, #2a6250, #97cead); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+        <h2>UI Components Test - Enhanced Typography</h2>
+        <button style="background: linear-gradient(to right, #2a6250, #97cead); color: white; padding: 14px 28px; border: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer;">
             Scan Object Button
         </button>
         <br><br>
-        <div style="background: #e5f3dd; padding: 16px; border-radius: 12px; margin-top: 10px;">
-            <h3 style="color: #012437; margin: 0 0 8px 0;">Card Title</h3>
-            <p style="color: #2a6250; margin: 0;">This card text should use Poppins font automatically.</p>
+        <div style="background: #e5f3dd; padding: 18px; border-radius: 12px; margin-top: 10px;">
+            <h3 style="color: #012437; margin: 0 0 8px 0; font-weight: 700; font-size: 1.5rem;">Card Title</h3>
+            <p style="color: #2a6250; margin: 0; font-size: 1.125rem; font-weight: 600;">This card text now uses bigger and thicker Playfair Display font automatically for better readability.</p>
+        </div>
+        
+        <div class="size-demo" style="margin-top: 15px;">
+            <p><strong>🎯 Typography Improvements Applied:</strong></p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li>Buttons: Now 700 weight, 1.1rem size</li>
+                <li>Cards: Thicker text (600 weight), larger size</li>
+                <li>Headings: Bold (700-800 weight), bigger sizes</li>
+                <li>Overall: Better visual hierarchy and readability</li>
+            </ul>
         </div>
     </div>
 </body>

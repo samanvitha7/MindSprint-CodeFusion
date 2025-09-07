@@ -149,7 +149,7 @@ export default function ScanObjectPage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleUpload}
                   disabled={!file || loading}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-forest to-mint text-white font-semibold rounded-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-forest/80 to-mint/80 text-navy font-semibold rounded-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center">
