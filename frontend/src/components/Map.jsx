@@ -185,7 +185,7 @@ const Map = () => {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/facilities");
+        const response = await fetch("http://localhost:5050/api/facilities");
         if (!response.ok) {
           throw new Error("Failed to fetch facilities");
         }
@@ -261,7 +261,7 @@ const Map = () => {
           <h2 className="text-xl font-semibold mb-2">Error Loading Map</h2>
           <p className="text-forest">{error}</p>
           <p className="text-sm mt-2 text-forest">
-            Please ensure the backend server is running on port 5000
+            Please ensure the backend server is running on port 5050
           </p>
         </div>
       </div>
