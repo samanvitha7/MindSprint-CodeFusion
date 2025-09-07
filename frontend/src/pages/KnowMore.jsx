@@ -21,7 +21,7 @@ const KnowMore = () => {
 
   return (
     <>
-    <main className="min-h-screen bg-gradient-to-br from-soft/40 via-soft/20 to-white">
+    <main className="min-h-screen bg-soft">
       <Header />
 
       {/* Top Section */}
