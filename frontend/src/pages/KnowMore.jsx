@@ -52,15 +52,15 @@ const KnowMore = () => {
           {/* Right: Guide */}
           <div className="w-full lg:w-[55%] flex lg:self-center mt-8 lg:mt-0">
             <div className="bg-white/95 rounded-2xl shadow-lg px-8 py-14 w-full">
-              <h2 className="text-2xl font-bold text-forest mb-4">
+              <h2 className="text-2xl font-bold text-navy mb-4">
                 Waste Management Guide
               </h2>
-              <p className="text-mint mb-4 leading-relaxed">
+              <p className="text-forest mb-4 leading-relaxed">
                 Select a waste type from the wheel to learn how to properly
                 dispose of it, understand its environmental impact, and discover
                 eco-friendly alternatives.
               </p>
-              <p className="text-forest italic">
+              <p className="text-grey-20 italic">
                 Click on a segment of the wheel to learn more about that waste
                 type.
               </p>
@@ -69,7 +69,7 @@ const KnowMore = () => {
         </div>
 
         {/* Bottom Box: Why It Matters */}
-        <div className="mt-16 w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-inner p-10">
+        <div className="mt-16 w-full bg-transparent backdrop-blur-md rounded-2xl  p-10">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-[#1d3557] via-[#264653] to-[#2a9d8f] bg-clip-text text-transparent mb-8 text-center">
             Why Proper Waste Management Matters
           </h2>
@@ -95,7 +95,7 @@ const KnowMore = () => {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="bg-gradient-to-br from-soft/10 to-white p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300"
               >
                 <h3 className="font-semibold text-forest mb-2">
                   {item.title}
