@@ -39,6 +39,7 @@ export default function ScanObjectPage() {
   };
 
   return (
+    <>
     <div className="p-6 flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">♻️ Scan Object</h1>
 
@@ -66,5 +67,6 @@ export default function ScanObjectPage() {
         </p>
       )}
     </div>
+  </>
   );
 }
