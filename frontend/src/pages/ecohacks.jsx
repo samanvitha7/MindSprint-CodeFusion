@@ -173,124 +173,149 @@ export default function Ecohacks() {
           </p>
         </header>
 
-        {/* Category Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {ecoHacksData.map((category, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setSelectedCategory(selectedCategory === idx ? null : idx)}
-              className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-6 cursor-pointer transition-all duration-300 hover:shadow-xl"
-            >
-              <div className="text-center mb-4">
-                <div className="text-5xl mb-3">{category.icon}</div>
-                <h3 className="text-2xl font-bold text-forest mb-2">{category.title}</h3>
-                <p className="text-mint text-sm leading-relaxed">{category.description}</p>
+        {/* Category Grid with Inline Details */}
+        <div className="space-y-8 mb-16">
+          {/* Row-based layout for better positioning */}
+          {Array.from({ length: Math.ceil(ecoHacksData.length / 3) }).map((_, rowIndex) => (
+            <div key={rowIndex}>
+              {/* Category Cards Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                {ecoHacksData.slice(rowIndex * 3, (rowIndex + 1) * 3).map((category, idx) => {
+                  const actualIndex = rowIndex * 3 + idx;
+                  return (
+                    <motion.div
+                      key={actualIndex}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedCategory(selectedCategory === actualIndex ? null : actualIndex)}
+                      className={`bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-6 cursor-pointer transition-all duration-300 hover:shadow-xl ${
+                        selectedCategory === actualIndex ? 'ring-2 ring-forest/30 shadow-xl' : ''
+                      }`}
+                    >
+                      <div className="text-center mb-4">
+                        <div className="text-5xl mb-3">{category.icon}</div>
+                        <h3 className="text-2xl font-bold text-forest mb-2">{category.title}</h3>
+                        <p className="text-mint text-sm leading-relaxed">{category.description}</p>
+                      </div>
+                      
+                      <div className={`w-full h-1 bg-gradient-to-r ${category.color} rounded-full mb-4`}></div>
+                      
+                      <div className="text-center">
+                        <span className="text-forest text-sm font-medium">
+                          {selectedCategory === actualIndex ? 'Hide Details' : 'View Tips & Videos'}
+                        </span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
               
-              <div className={`w-full h-1 bg-gradient-to-r ${category.color} rounded-full mb-4`}></div>
-              
-              <div className="text-center">
-                <span className="text-forest text-sm font-medium">
-                  {selectedCategory === idx ? 'Hide Details' : 'View Tips & Videos'}
-                </span>
-              </div>
-            </motion.div>
+              {/* Selected Category Details - Appears in this row if selected */}
+              <AnimatePresence>
+                {selectedCategory !== null && 
+                 selectedCategory >= rowIndex * 3 && 
+                 selectedCategory < (rowIndex + 1) * 3 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, y: -20, height: 0 }}
+                    className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-8 mb-8 border-l-4 border-forest"
+                  >
+                    <div className="text-center mb-8">
+                      <div className="text-6xl mb-4">{ecoHacksData[selectedCategory].icon}</div>
+                      <h2 className="text-3xl font-bold text-forest mb-2">
+                        {ecoHacksData[selectedCategory].title} Recycling Guide
+                      </h2>
+                      <div className={`w-24 h-1 bg-gradient-to-r ${ecoHacksData[selectedCategory].color} rounded-full mx-auto`}></div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                      {/* Tips Section */}
+                      <div className="bg-gradient-to-br from-soft/20 to-white p-6 rounded-xl">
+                        <h3 className="text-xl font-bold text-navy mb-4 flex items-center">
+                          <span className="mr-2">💡</span>
+                          Recycling Tips
+                        </h3>
+                        <ul className="space-y-3">
+                          {ecoHacksData[selectedCategory].tips.map((tip, tipIdx) => (
+                            <li key={tipIdx} className="flex items-start text-forest">
+                              <span className="text-mint mr-2 mt-1 text-sm">•</span>
+                              <span className="text-sm leading-relaxed">{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Videos Section */}
+                      <div className="bg-gradient-to-br from-soft/20 to-white p-6 rounded-xl">
+                        <h3 className="text-xl font-bold text-navy mb-4 flex items-center">
+                          <span className="mr-2">🎥</span>
+                          Video Tutorials
+                        </h3>
+                        <div className="space-y-4">
+                          {ecoHacksData[selectedCategory].videos.map((video, videoIdx) => (
+                            <motion.div
+                              key={videoIdx}
+                              whileHover={{ scale: 1.02 }}
+                              className="relative cursor-pointer rounded-xl overflow-hidden shadow-md bg-gradient-to-br from-mint/10 to-soft/20 min-h-[140px] border-2 border-mint/20"
+                              onClick={() => {
+                                console.log('Video clicked:', video.title, video.url);
+                                setModalVideo(video.url);
+                              }}
+                            >
+                              <img
+                                src={video.thumbnail}
+                                alt={video.title}
+                                className="w-full h-32 object-cover"
+                                onError={(e) => {
+                                  // Try fallback thumbnail first
+                                  if (video.fallbackThumbnail && e.target.src !== video.fallbackThumbnail) {
+                                    e.target.src = video.fallbackThumbnail;
+                                  } else {
+                                    // If both thumbnails fail, show fallback content
+                                    e.target.style.display = 'none';
+                                    e.target.nextElementSibling.style.display = 'flex';
+                                  }
+                                }}
+                                onLoad={() => {
+                                  console.log('Thumbnail loaded successfully:', video.title);
+                                }}
+                              />
+                              {/* Fallback content when image fails */}
+                              <div className="absolute inset-0 bg-gradient-to-br from-forest/20 to-mint/20 flex-col items-center justify-center hidden">
+                                <div className="text-4xl mb-2">🎥</div>
+                                <p className="text-forest font-semibold text-center px-4">{video.title}</p>
+                              </div>
+                              <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                <div className="bg-white/90 rounded-full p-4 shadow-lg">
+                                  <span className="text-forest text-3xl">▶</span>
+                                </div>
+                              </div>
+                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                                <p className="text-white text-sm font-medium">{video.title}</p>
+                                <p className="text-white/80 text-xs mt-1">Click to watch</p>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Close button */}
+                    <div className="text-center mt-6">
+                      <button
+                        onClick={() => setSelectedCategory(null)}
+                        className="bg-forest hover:bg-navy text-white px-6 py-2 rounded-full text-sm font-medium transition-colors"
+                      >
+                        Close Details
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           ))}
         </div>
-
-        {/* Selected Category Details */}
-        <AnimatePresence>
-          {selectedCategory !== null && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg p-8 mb-8"
-            >
-              <div className="text-center mb-8">
-                <div className="text-6xl mb-4">{ecoHacksData[selectedCategory].icon}</div>
-                <h2 className="text-3xl font-bold text-forest mb-2">
-                  {ecoHacksData[selectedCategory].title} Recycling Guide
-                </h2>
-                <div className={`w-24 h-1 bg-gradient-to-r ${ecoHacksData[selectedCategory].color} rounded-full mx-auto`}></div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Tips Section */}
-                <div className="bg-gradient-to-br from-soft/20 to-white p-6 rounded-xl">
-                  <h3 className="text-xl font-bold text-navy mb-4 flex items-center">
-                    <span className="mr-2">💡</span>
-                    Recycling Tips
-                  </h3>
-                  <ul className="space-y-3">
-                    {ecoHacksData[selectedCategory].tips.map((tip, tipIdx) => (
-                      <li key={tipIdx} className="flex items-start text-forest">
-                        <span className="text-mint mr-2 mt-1 text-sm">•</span>
-                        <span className="text-sm leading-relaxed">{tip}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Videos Section */}
-                <div className="bg-gradient-to-br from-soft/20 to-white p-6 rounded-xl">
-                  <h3 className="text-xl font-bold text-navy mb-4 flex items-center">
-                    <span className="mr-2">🎥</span>
-                    Video Tutorials
-                  </h3>
-                  <div className="space-y-4">
-                    {ecoHacksData[selectedCategory].videos.map((video, videoIdx) => (
-                      <motion.div
-                        key={videoIdx}
-                        whileHover={{ scale: 1.02 }}
-                        className="relative cursor-pointer rounded-xl overflow-hidden shadow-md bg-gradient-to-br from-mint/10 to-soft/20 min-h-[140px] border-2 border-mint/20"
-                        onClick={() => {
-                          console.log('Video clicked:', video.title, video.url);
-                          setModalVideo(video.url);
-                        }}
-                      >
-                        <img
-                          src={video.thumbnail}
-                          alt={video.title}
-                          className="w-full h-32 object-cover"
-                          onError={(e) => {
-                            // Try fallback thumbnail first
-                            if (video.fallbackThumbnail && e.target.src !== video.fallbackThumbnail) {
-                              e.target.src = video.fallbackThumbnail;
-                            } else {
-                              // If both thumbnails fail, show fallback content
-                              e.target.style.display = 'none';
-                              e.target.nextElementSibling.style.display = 'flex';
-                            }
-                          }}
-                          onLoad={() => {
-                            console.log('Thumbnail loaded successfully:', video.title);
-                          }}
-                        />
-                        {/* Fallback content when image fails */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-forest/20 to-mint/20 flex-col items-center justify-center hidden">
-                          <div className="text-4xl mb-2">🎥</div>
-                          <p className="text-forest font-semibold text-center px-4">{video.title}</p>
-                        </div>
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                          <div className="bg-white/90 rounded-full p-4 shadow-lg">
-                            <span className="text-forest text-3xl">▶</span>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                          <p className="text-white text-sm font-medium">{video.title}</p>
-                          <p className="text-white/80 text-xs mt-1">Click to watch</p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Bottom Information Section */}
         <div className="mt-16 w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-inner p-10">
