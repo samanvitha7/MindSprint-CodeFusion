@@ -96,12 +96,12 @@ smart-waste-classifier/
 
 ## 👥 Team  
 
-- **Samanvitha Bolisetty** – AI & Backend  
-- **Shreya Ashar** – Frontend  
-- **Naina Jain** – Database & Deployment  
-- **Nishchay Mittal** – Research & Content  
-- **Arshad Khatib** – UI/UX & Gamification  
-- **Neel Mhaske Arun** – Testing & Optimization  
+- **Samanvitha Bolisetty** – Backend & Research 
+- **Shreya Ashar** – AI/ML & Backend 
+- **Naina Jain** – Frontend & UI/UX 
+- **Nishchay Mittal** – Frontend & Research 
+- **Arshad Khatib** – AI/ML & Testing
+- **Neel Mhaske Arun** – Testing & Frontend
 
 ---
 
