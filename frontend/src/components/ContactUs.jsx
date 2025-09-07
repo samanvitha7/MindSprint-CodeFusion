@@ -70,10 +70,10 @@ function ContactForm() {
         <motion.h2
           className="text-3xl font-bold mb-4 font-[Poppins] bg-gradient-to-r from-navy to-forest bg-clip-text text-transparent"
         >
-          Contact Us
+           Let’s Connect
         </motion.h2>
         <p className="text-lg leading-relaxed font-[poppins] text-forest">
-          Fill in your details below and we’ll get back to you.
+           Got thoughts, ideas, or just something to say? We’re all ears — leave a message and we’ll get back to you!
         </p>
       </div>
 

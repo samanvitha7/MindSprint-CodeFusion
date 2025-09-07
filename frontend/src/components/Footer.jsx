@@ -64,30 +64,6 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/scanobject"
-                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
-                >
-                  Scan Object
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/map"
-                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
-                >
-                  Facility Map
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/ecohacks"
-                  className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
-                >
-                  Eco Hacks
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/about"
                   className="text-soft/80 hover:text-mint transition-colors duration-300 hover:translate-x-1 transform inline-block"
                 >
@@ -143,10 +119,10 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-soft/20">
           <div className="max-w-md mx-auto text-center">
             <h3 className="text-xl font-bold text-mint mb-4 font-poppins tracking-wide">
-              Any Suggestions?
+              Share Your Thoughts
             </h3>
             <p className="text-soft/80 mb-6 font-poppins">
-              Give us feedback here!!
+              We'd love to hear from you!
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
