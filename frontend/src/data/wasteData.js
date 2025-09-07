@@ -3,7 +3,7 @@ export const WASTE_TYPES = [
   {
     category: "Plastic",
     color: "#93c5fd", // blue-300
-    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "https://trellis.net/wp-content/uploads/2024/07/plasticwastesstock.jpg",
     instructions: [
       "Clean and dry plastic containers before recycling",
       "Remove caps and lids (they're often different plastic types)",
@@ -25,7 +25,7 @@ export const WASTE_TYPES = [
   {
     category: "Paper",
     color: "#fcd34d", // amber-300
-    image: "https://images.unsplash.com/photo-1592520113018-180c8bc831c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "https://5.imimg.com/data5/SELLER/Default/2024/1/378579117/IM/XA/RX/1096998/printing-and-writing-paper.jpg",
     instructions: [
       "Keep paper dry and clean",
       "Remove any plastic windows from envelopes",
@@ -46,7 +46,7 @@ export const WASTE_TYPES = [
   {
     category: "Glass",
     color: "#86efac", // green-300
-    image: "https://images.unsplash.com/photo-1599458254917-5e31b6aba3d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "https://image.made-in-china.com/2f0j00RYUckzbtjfoG/Wholesale-20mm-30mm-37mm-Clear-Small-Empty-Jar-Mini-Glass-Bottle.webp",
     instructions: [
       "Rinse glass containers to remove residue",
       "Remove lids and caps (recycle separately if possible)",
@@ -67,7 +67,7 @@ export const WASTE_TYPES = [
   {
     category: "Metal",
     color: "#d1d5db", // gray-300
-    image: "https://images.unsplash.com/photo-1600431521342-0b9c2c6bce4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "https://media.istockphoto.com/id/646996026/photo/metal-profiles-and-tubes-different-stainless-steel-products.jpg?s=612x612&w=0&k=20&c=h3Kmz9NBC9Egi3KvQHVO-_UXBQ2ciU0jEunusO72tIY=",
     instructions: [
       "Rinse cans to remove food residue",
       "Aluminum and steel can usually be recycled together",
@@ -88,8 +88,8 @@ export const WASTE_TYPES = [
   {
     category: "Electronics",
     color: "#d8b4fe", // purple-300
-    image: "https://images.unsplash.com/photo-1563207153-f403bf289096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    instructions: [
+    image: "",
+    instructions:[ "https://eu-images.contentstack.com/v3/assets/blt8eb3cdfc1fce5194/blt2e8843dc28040907/66508e36ffe6c82c89c55037/e-waste.jpg?disable=upscale&width=1200&height=630&fit=crop"
       "Never put electronics in regular recycling bins",
       "Find certified e-waste recyclers in your area",
       "Remove batteries before recycling devices",
@@ -110,7 +110,7 @@ export const WASTE_TYPES = [
   {
     category: "Organic",
     color: "#bbf7d0", // green-200
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "https://media.istockphoto.com/id/547150468/photo/fresh-bio-waste-and-compost.jpg?s=612x612&w=0&k=20&c=iN9Sjhlb5BiENasbjpN0G3EPfdy92UN9bgcTURD9SSc=",
     instructions: [
       "Compost fruit and vegetable scraps",
       "Avoid composting meat, dairy, or oily foods in home compost",
